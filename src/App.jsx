@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Header from "./components/Header";
 import Home from "./pages/main/Home";
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
@@ -13,9 +14,11 @@ const Pages = {
 };
 
 function App() {
-  if (isAuthenticated) {
+  console.log(isAuthenticated);
+  if (isAuthenticated()) {
     return (
       <Router>
+        <Header />
         <Routes>
           <Route path={Pages.ROOT} element={<Home />} />
           <Route path={Pages.HOME} element={<Home />} />
