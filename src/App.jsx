@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Home from "./pages/Home";
-import Headers from "./components/Headers"; 
+import Home from "./pages/main/Home";
+import Header from "./components/Header"; 
 
 // Define an enum for the pages
 const Pages = {
@@ -11,7 +11,7 @@ const Pages = {
 function App() {
   return (
     <Router>
-      <Headers />
+      <Header />
       <Routes>
         <Route path={Pages.ROOT} element={<Home />} />
         <Route path={Pages.HOME} element={<Home />} />

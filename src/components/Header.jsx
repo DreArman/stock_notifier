@@ -1,4 +1,4 @@
-const Headers = () => {
+const Header = () => {
   return (
     <div className="container">
     <header className="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
@@ -13,10 +13,13 @@ const Headers = () => {
         <li className="nav-item"><a href="#" className="nav-link">Pricing</a></li>
         <li className="nav-item"><a href="#" className="nav-link">FAQs</a></li>
         <li className="nav-item"><a href="#" className="nav-link">About</a></li>
+        <a href="#" className="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+            <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" className="rounded-circle"></img>
+          </a>
       </ul>
     </header>
   </div>
   );
 };
 
-export default Headers;
+export default Header;
