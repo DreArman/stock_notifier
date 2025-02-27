@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = import.meta.env.SERVER_URL;
+const API_URL = import.meta.env.VITE_SERVER_URL;
 console.log("out:", API_URL);
 
 export const login = async (email, password) => {
