@@ -15,18 +15,18 @@ function App() {
     <Router>
       <Routes>
         {/* Public Routes (Login, Register) - Redirect if already authenticated */}
-        <Route element={<PublicRoute isAuth={isAuth} redirectTo={Pages.HOME} />}>
+        <Route element={<PublicRoute isAuth={isAuth} redirectTo={Pages.DASHBOARD} />}>
           <Route element={<Layout isAuth={isAuth} />}>
             <Route path={Pages.ROOT} element={<Login />} />
-            <Route path={Pages.LOGIN} element={<Login />} />
-            <Route path={Pages.REGISTER} element={<Register />} />
+            <Route path={Pages.SIGN_IN} element={<Login />} />
+            <Route path={Pages.SIGN_UP} element={<Register />} />
           </Route>
         </Route>
 
         {/* Protected Routes (Require Auth) */}
-        <Route element={<ProtectedRoute isAuth={isAuth} redirectTo={Pages.LOGIN} />}>
+        <Route element={<ProtectedRoute isAuth={isAuth} redirectTo={Pages.SIGN_IN} />}>
           <Route element={<Layout isAuth={isAuth} />}>
-            <Route path={Pages.HOME} element={<Home />} />
+            <Route path={Pages.DASHBOARD} element={<Home />} />
           </Route>
         </Route>
       </Routes>
