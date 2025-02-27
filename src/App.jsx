@@ -10,6 +10,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import PublicRoute from "./components/PublicRoute";
 import Layout from "./components/Layout";
 import { isAuthenticated } from "./utils/auth.js";
+import Profile from "./pages/main/Profile.jsx";
 
 
 function App() {
@@ -33,6 +34,7 @@ function App() {
             <Route path={Pages.FORECAST} element={<Forecast />} />
             <Route path={Pages.STOCK_ALERTS} element={<Alert />} />
             <Route path={Pages.STOCKS} element={<Stocks />} />
+            <Route path={Pages.PROFILE} element={<Profile />} />
           </Route>
         </Route>
       </Routes>
