@@ -6,7 +6,7 @@ const Header = () => {
   return (
     <header className="d-flex flex-wrap align-items-center justify-content-between py-3 mb-4 p-4 border-bottom">
 
-      <a href="/" className="me-5 p-2">
+      <a href={Pages.ROOT} className="me-5 p-2">
         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" className="bi bi-graph-up" viewBox="0 0 16 16">
           <path fillRule="evenodd" d="M0 0h1v15h15v1H0zm14.817 3.113a.5.5 0 0 1 .07.704l-4.5 5.5a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61 4.15-5.073a.5.5 0 0 1 .704-.07"/>
         </svg>
@@ -19,17 +19,17 @@ const Header = () => {
           </NavLink>
         </li>
         <li className="nav-item">
-          <NavLink to="/stocks" className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}>
+          <NavLink to={Pages.STOCKS} className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}>
             Stocks
           </NavLink>
         </li>
         <li className="nav-item">
-          <NavLink to="/forecast" className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}>
+          <NavLink to={Pages.FORECAST} className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}>
             Forecast
           </NavLink>
         </li>
         <li className="nav-item">
-          <NavLink to="/alerts" className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}>
+          <NavLink to={Pages.STOCK_ALERTS} className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}>
             Alerts
           </NavLink>
         </li>
