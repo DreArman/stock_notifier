@@ -1,6 +1,9 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Pages from "./constants/Pages";
 import Home from "./pages/main/Home";
+import Forecast from "./pages/main/Forecast";
+import Alert from "./pages/main/Alert";
+import Stocks from "./pages/main/Stocks";
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -27,6 +30,9 @@ function App() {
         <Route element={<ProtectedRoute isAuth={isAuth} redirectTo={Pages.SIGN_IN} />}>
           <Route element={<Layout isAuth={isAuth} />}>
             <Route path={Pages.DASHBOARD} element={<Home />} />
+            <Route path={Pages.FORECAST} element={<Forecast />} />
+            <Route path={Pages.STOCK_ALERTS} element={<Alert />} />
+            <Route path={Pages.STOCKS} element={<Stocks />} />
           </Route>
         </Route>
       </Routes>
