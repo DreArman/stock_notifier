@@ -12,14 +12,17 @@ import Layout from './components/Layout';
 import { AuthProvider } from './context/AuthContext.jsx';
 import Profile from './pages/main/Profile.jsx';
 
+function NotFound() {
+  return <h1>404 - Page Not Found</h1>;
+}
+
 function App() {
   return (
     <AuthProvider>
       <Router>
         <Routes>
           {/* Public Routes (Login, Register) - Redirect if already authenticated */}
-          <Route element={<PublicRoute redirectTo={Pages.DASHBOARD} />}>
-            <Route path={Pages.ROOT} element={<Login />} />
+          <Route element={<PublicRoute redirectTo={Pages.ROOT} />}>
             <Route path={Pages.SIGN_IN} element={<Login />} />
             <Route path={Pages.SIGN_UP} element={<Register />} />
           </Route>
@@ -35,6 +38,9 @@ function App() {
               <Route path={Pages.PROFILE} element={<Profile />} />
             </Route>
           </Route>
+
+          {/* Catch-all 404 route (must be outside PublicRoute & ProtectedRoute) */}
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>
     </AuthProvider>

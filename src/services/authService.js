@@ -1,22 +1,44 @@
-import axios from 'axios';
-
-const API_URL = import.meta.env.VITE_SERVER_URL;
-console.log("out:", API_URL);
+import API from "./axiosInstance";
 
 export const login = async (email, password) => {
-  console.log("in:", API_URL);
-  const response = await axios.post(`${API_URL}/login`, { email, password });
-  return response.data;
+  try {
+    const response = await API.post("/login", { email, password });
+    localStorage.setItem("access_token", response.data.access_token);
+    return response.data;
+  } catch (error) {
+    console.error("Ошибка входа:", error);
+    throw error;
+  }
 };
 
 export const register = async (email, password) => {
-  const response = await axios.post(`${API_URL}/register`, { email, password });
-  return response.data;
+  try {
+    const response = await API.post("/register", { email, password });
+    return response.data;
+  } catch (error) {
+    console.error("Ошибка регистрации:", error);
+    throw error;
+  }
 };
 
 export const refreshToken = async () => {
-    const refresh_token = localStorage.getItem('refresh_token');
-    const response = await axios.post(`${API_URL}/refresh`, { refresh_token });
-    localStorage.setItem('access_token', response.data.access_token);
-    return response.data.access_token;
+  try {
+    const response = await API.post("/refresh");
+    const newAccessToken = response.data.access_token;
+    localStorage.setItem("access_token", newAccessToken);
+    return newAccessToken;
+  } catch (error) {
+    console.error("Ошибка обновления токена:", error);
+    throw error;
+  }
+};
+
+export const logout = async () => {
+  try {
+    await API.post("/logout");
+    localStorage.removeItem("access_token");
+    window.location.href = "/login";
+  } catch (error) {
+    console.error("Ошибка выхода:", error);
+  }
 };

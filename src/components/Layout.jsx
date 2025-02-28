@@ -12,8 +12,5 @@ const Layout = () => {
     </div>
   );
 };
-Layout.propTypes = {
-  isAuth: PropTypes.bool.isRequired,
-};
 
 export default Layout;

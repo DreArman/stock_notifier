@@ -1,7 +1,7 @@
 const Pages = {
     ROOT: "/",                        // Главная страница
-    SIGN_IN: "/sign-in",              // Страница входа
-    SIGN_UP: "/sign-up",              // Страница регистрации
+    SIGN_IN: "/auth/sign-in",         // Страница входа
+    SIGN_UP: "/auth/sign-up",         // Страница регистрации
     PROFILE: "/profile",              // Профиль пользователя
     NOTIFICATIONS: "/notifications",  // Общие уведомления на сайте (например, системные сообщения)
     DASHBOARD: "/dashboard",          // Главная панель управления
