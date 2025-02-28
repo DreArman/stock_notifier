@@ -5,7 +5,7 @@ import { login as loginService, register as registerService } from '../services/
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [isAuth, setIsAuth] = useState(true);
+  const [isAuth, setIsAuth] = useState(false);
   const [user, setUser] = useState(null);
 
   useEffect(() => {

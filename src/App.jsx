@@ -19,11 +19,9 @@ function App() {
         <Routes>
           {/* Public Routes (Login, Register) - Redirect if already authenticated */}
           <Route element={<PublicRoute redirectTo={Pages.DASHBOARD} />}>
-            <Route element={<Layout />}>
-              <Route path={Pages.ROOT} element={<Login />} />
-              <Route path={Pages.SIGN_IN} element={<Login />} />
-              <Route path={Pages.SIGN_UP} element={<Register />} />
-            </Route>
+            <Route path={Pages.ROOT} element={<Login />} />
+            <Route path={Pages.SIGN_IN} element={<Login />} />
+            <Route path={Pages.SIGN_UP} element={<Register />} />
           </Route>
 
           {/* Protected Routes (Require Auth) */}
