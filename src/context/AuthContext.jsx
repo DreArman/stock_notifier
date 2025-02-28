@@ -5,7 +5,7 @@ import { login as loginService, register as registerService } from '../services/
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [isAuth, setIsAuth] = useState(false);
+  const [isAuth, setIsAuth] = useState(localStorage.getItem('access_token') !== null);
   // const [user, setUser] = useState(null);
 
   useEffect(() => {
@@ -24,8 +24,8 @@ export const AuthProvider = ({ children }) => {
     // Optionally, set user data here
   };
 
-  const register = async (email, password) => {
-    const data = await registerService(email, password);
+  const register = async (username, email, password) => {
+    const data = await registerService(username, email, password);
     console.log(data)
     // setIsAuth(true);
     // Optionally, set user data here

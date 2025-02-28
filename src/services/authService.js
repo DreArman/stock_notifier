@@ -11,9 +11,9 @@ export const login = async (email, password) => {
   }
 };
 
-export const register = async (email, password) => {
+export const register = async (username, email, password) => {
   try {
-    const response = await API.post("/register", { email, password });
+    const response = await API.post("/register", { username, email, password });
     return response.data;
   } catch (error) {
     console.error("Ошибка регистрации:", error);
