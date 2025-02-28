@@ -1,6 +1,6 @@
 import axios from "axios";
 import Pages from "../constants/Pages";
-// import { refreshToken } from "./authService";
+import { refreshToken } from "./authService";
 
 const API_URL = import.meta.env.VITE_SERVER_URL;
 
