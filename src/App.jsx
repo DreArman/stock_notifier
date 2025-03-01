@@ -25,6 +25,10 @@ function App() {
           <Route element={<PublicRoute redirectTo={Pages.ROOT} />}>
             <Route path={Pages.SIGN_IN} element={<Login />} />
             <Route path={Pages.SIGN_UP} element={<Register />} />
+            <Route element={<Layout />}>
+              <Route path={Pages.ROOT} element={<Home />} />
+              <Route path={Pages.DASHBOARD} element={<Home />} />
+            </Route>
           </Route>
 
           {/* Protected Routes (Require Auth) */}
