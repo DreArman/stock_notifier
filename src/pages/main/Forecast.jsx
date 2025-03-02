@@ -1,6 +1,6 @@
 const Forecast = () => {
     return (
-      <div className="flex flex-col md:flex-row items-center justify-center p-8">
+      <div className="flex flex-col md:flex-row items-center justify-center p-4 px-md-5 py-md-4 mb-4 rounded">
         <div className="row align-items-md-stretch">
         <div className="col-md-6">
           <div className="h-100 p-5 text-bg-dark rounded-3">

@@ -26,7 +26,7 @@ function App() {
             <Route path={Pages.SIGN_IN} element={<Login />} />
             <Route path={Pages.SIGN_UP} element={<Register />} />
             <Route element={<Layout />}>
-              <Route path={Pages.ROOT} element={<Home />} />
+              {/* <Route path={Pages.ROOT} element={<Home />} /> */}
               <Route path={Pages.DASHBOARD} element={<Home />} />
             </Route>
           </Route>

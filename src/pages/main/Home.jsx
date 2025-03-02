@@ -5,8 +5,8 @@ const Home = () => {
     <div className="flex flex-col md:flex-row items-center justify-center p-4 px-md-5 py-md-4 mb-4 rounded">
       <div className="p-4 p-md-4 mb-3 rounded text-body-emphasis bg-body-secondary">
         <div className="col-lg-6 px-0">
-          <h1 className="display-4 fst-italic">Title of a longer featured blog post</h1>
-          <p className="lead my-3">Multiple lines of text that form the lede, informing new readers quickly and efficiently about what’s most interesting in this post’s contents.</p>
+          <h1 className="display-4 fst-italic">Lorem ipsum dolor sit amet.</h1>
+          <p className="lead my-3">Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque ullam earum perspiciatis molestias in blanditiis itaque ipsa officiis dicta fuga, suscipit ipsum sapiente dolor cumque quae quam facere sint vitae.</p>
         </div>
       </div>
       <div className="row align-items-md-stretch">
@@ -19,7 +19,7 @@ const Home = () => {
         </div>
         <div className="col-md-6">
           <div className="h-100 p-5 bg-body-tertiary bord ёr rounded-3">
-            <h2>Add borders</h2>
+            <h2>Some Text</h2>
             <p>L&apos;orem, ipsum dolor sit amet consectetur adipisicing elit. Ex, ducimus. Dolor quam veritatis enim laboriosam autem dolorum ipsum quisquam provident sunt. Nihil impedit voluptas culpa iste repudiandae aperiam fugiat magni.</p>
           </div>
         </div>
