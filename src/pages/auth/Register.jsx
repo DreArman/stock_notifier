@@ -21,19 +21,15 @@ const Register = () => {
         onSubmit={handleSubmit}
         className="w-25 p-4 bg-body-primary rounded-3"
       >
-        <img
-          className="mb-4"
-          src="https://cdn-icons-png.flaticon.com/512/17473/17473639.png"
-          alt=""
-          width="80"
-          height="80"
-        />
+        <a className="d-flex justify-content-center" href={Pages.ROOT} >
+          <img className="mb-4" src="https://cdn-icons-png.flaticon.com/512/17473/17473639.png" width="80" height="80" />
+        </a>
         <h1 className="h3 mb-3 fw-normal">Please Sign Up</h1>
 
         <div className="form-floating">
           <input
             type="text"
-            className="form-control"
+            className="form-control mb-md-2"
             id="floatingName"
             placeholder="Name Surname"
             value={username}
@@ -45,7 +41,7 @@ const Register = () => {
         <div className="form-floating">
           <input
             type="email"
-            className="form-control"
+            className="form-control mb-md-2"
             id="floatingEmail"
             placeholder="name@example.com"
             value={email}
@@ -54,7 +50,7 @@ const Register = () => {
           />
           <label htmlFor="floatingInput">Email address</label>
         </div>
-        <div className="form-floating">
+        <div className="form-floating mb-md-2">
           <input
             type="password"
             className="form-control"
@@ -81,6 +77,7 @@ const Register = () => {
         <button className="btn btn-primary w-100 py-2" type="submit">
           Sign in
         </button>
+        <label>Already have an account? <a href={Pages.SIGN_IN}>Sign in</a></label>
       </form>
     </main>
   );
