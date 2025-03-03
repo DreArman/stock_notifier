@@ -5,7 +5,7 @@ import { login as loginService, register as registerService } from '../services/
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [isAuth, setIsAuth] = useState(localStorage.getItem('access_token') !== null);
+  const [isAuth, setIsAuth] = useState(localStorage.getItem('access_token') === null);
   // const [user, setUser] = useState(null);
 
   useEffect(() => {

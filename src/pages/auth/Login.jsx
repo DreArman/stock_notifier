@@ -1,5 +1,6 @@
 import { useState, useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext';
+import Pages from '../../constants/Pages';
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -17,19 +18,15 @@ const Login = () => {
         onSubmit={handleSubmit}
         className="w-25 p-4 bg-body-primary rounded-3"
       >
-        <img
-          className="mb-4"
-          src="https://cdn-icons-png.flaticon.com/512/17473/17473639.png"
-          alt=""
-          width="80"
-          height="80"
-        />
+        <a className="d-flex justify-content-center" href={Pages.DASHBOARD} >
+          <img className="mb-4" src="https://cdn-icons-png.flaticon.com/512/17473/17473639.png" width="80" height="80" />
+        </a>
         <h1 className="h3 mb-3 fw-normal">Please Sign In</h1>
 
         <div className="form-floating">
           <input
             type="email"
-            className="form-control"
+            className="form-control mb-md-2"
             id="floatingInput"
             placeholder="name@example.com"
             value={email}
@@ -38,7 +35,7 @@ const Login = () => {
           />
           <label htmlFor="floatingInput">Email address</label>
         </div>
-        <div className="form-floating">
+        <div className="form-floating mb-md-2">
           <input
             type="password"
             className="form-control"
@@ -65,6 +62,7 @@ const Login = () => {
         <button className="btn btn-primary w-100 py-2" type="submit">
           Sign in
         </button>
+        <label>Don&apos;t have account? <a href={Pages.SIGN_UP}>Sign up</a></label>
       </form>
     </main>
   );
