@@ -6,7 +6,7 @@ const API_URL = import.meta.env.VITE_SERVER_URL;
 
 const axiosInstance = axios.create({
   baseURL: API_URL,
-  // withCredentials: true, // Автоматически отправляем куки //todo uncomment future
+  withCredentials: true, // Автоматически отправляем куки //todo uncomment future
 });
 
 axiosInstance.interceptors.request.use(

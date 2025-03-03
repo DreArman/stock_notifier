@@ -3,6 +3,7 @@ import API from "./axiosInstance";
 export const login = async (email, password) => {
   try {
     const response = await API.post("/login", { email, password });
+    console.log(response)
     localStorage.setItem("access_token", response.data.access_token);
     return response.data;
   } catch (error) {
@@ -25,6 +26,7 @@ export const refreshToken = async () => {
   try {
     const response = await API.post("/refresh");
     const newAccessToken = response.data.access_token;
+    console.log("Новый токен:", newAccessToken);
     localStorage.setItem("access_token", newAccessToken);
     return newAccessToken;
   } catch (error) {
