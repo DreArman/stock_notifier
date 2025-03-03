@@ -1,6 +1,7 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import Pages from "../constants/Pages";
-import { useState } from "react";
+import { useState, useContext } from 'react';
+import { AuthContext } from '../context/AuthContext';
 
 const Header = () => {
   const user = {
@@ -15,16 +16,22 @@ const Header = () => {
     { id: 2, text: "Система обновлена до версии 2.1", read: false },
     { id: 3, text: "Ваш отчет готов к скачиванию", read: true },
   ]);
-
+  const navigate = useNavigate();
+  const { logout } = useContext(AuthContext);
+  
   const toggleProfile = () => setShowProfile(!showProfile);
   const toggleNotifications = () => setShowNotifications(!showNotifications);
+  const logoutClick = async () => {
+    await logout();
+    navigate(Pages.SIGN_IN);
+  }
   
   const hasUnread = notifications.some((notif) => !notif.read);
 
   return (
     <header className="d-flex flex-wrap align-items-center justify-content-between py-3 mb-4 p-4 border-bottom">
 
-      <NavLink to={Pages.DASHBOARD} className="me-5 p-2">
+      <NavLink to={Pages.ROOT} className="me-5 p-2">
         <img className="bi bi-graph-up" src="https://cdn-icons-png.flaticon.com/512/17473/17473639.png"  width="40" height="40"/>
       </NavLink>
 
@@ -100,7 +107,7 @@ const Header = () => {
                 <h6 className="mb-1">{user.Name}</h6>
                 <p className="text-muted">{user.username}</p>
                 <p className="mb-1"><strong>Email:</strong>{user.email}</p>
-                <button className="btn btn-outline-danger w-100 mt-2">Выйти</button>
+                <button className="btn btn-outline-danger w-100 mt-2"  onClick={logoutClick}>Выйти</button>
               </div>
             )}
           </div>

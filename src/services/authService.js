@@ -37,10 +37,11 @@ export const refreshToken = async () => {
 
 export const logout = async () => {
   try {
-    await API.post("/logout");
+    const response = await API.post("/logout");
     localStorage.removeItem("access_token");
-    window.location.href = "/login";
+    return response.data;
   } catch (error) {
     console.error("Ошибка выхода:", error);
+    throw error;
   }
 };

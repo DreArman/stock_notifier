@@ -1,11 +1,11 @@
 import { createContext, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { login as loginService, register as registerService } from '../services/authService';
+import { login as loginService, register as registerService, logout as logoutService } from '../services/authService';
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [isAuth, setIsAuth] = useState(localStorage.getItem('access_token') === null);
+  const [isAuth, setIsAuth] = useState(localStorage.getItem('access_token') !== null);
   // const [user, setUser] = useState(null);
 
   useEffect(() => {
@@ -31,8 +31,9 @@ export const AuthProvider = ({ children }) => {
     // Optionally, set user data here
   };
 
-  const logout = () => {
-    localStorage.removeItem('access_token');
+  const logout = async () => {
+    const data = await logoutService();
+    console.log(data);
     setIsAuth(false);
     // setUser(null);
   };

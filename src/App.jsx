@@ -25,17 +25,11 @@ function App() {
           <Route element={<PublicRoute redirectTo={Pages.ROOT} />}>
             <Route path={Pages.SIGN_IN} element={<Login />} />
             <Route path={Pages.SIGN_UP} element={<Register />} />
-            <Route element={<Layout />}>
-              {/* <Route path={Pages.ROOT} element={<Home />} /> */}
-              <Route path={Pages.DASHBOARD} element={<Home />} />
-            </Route>
           </Route>
 
           {/* Protected Routes (Require Auth) */}
           <Route element={<ProtectedRoute redirectTo={Pages.SIGN_IN} />}>
             <Route element={<Layout />}>
-              <Route path={Pages.ROOT} element={<Home />} />
-              <Route path={Pages.DASHBOARD} element={<Home />} />
               <Route path={Pages.FORECAST} element={<Forecast />} />
               <Route path={Pages.STOCK_ALERTS} element={<Alert />} />
               <Route path={Pages.STOCKS} element={<Stocks />} />
@@ -44,6 +38,10 @@ function App() {
           </Route>
 
           {/* Catch-all 404 route (must be outside PublicRoute & ProtectedRoute) */}
+          <Route element={<Layout />}>
+            <Route path={Pages.ROOT} element={<Home />} />
+            <Route path={Pages.DASHBOARD} element={<Home />} />
+          </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>
