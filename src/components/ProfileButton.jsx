@@ -31,17 +31,26 @@ const ProfileButton = ({ user }) => {
 
   return (
     <div className="position-relative" ref={profileRef}>
-      <button className="btn btn-light border-0" onClick={toggleProfile}>
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" className="bi d-block mx-auto mb-1" viewBox="0 0 16 16">
+      <button className="btn border-0" data-theme onClick={toggleProfile}>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          fill="currentColor"
+          className="bi d-block mx-auto mb-1"
+          viewBox="0 0 16 16"
+          data-theme
+          data-light-src="path/to/light-profile.svg"
+          data-dark-src="path/to/dark-profile.svg"
+        >
           <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
           <path fillRule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
         </svg>
       </button>
 
       {showProfile && (
-        <div className="position-absolute top-100 end-0 mt-2 p-3 bg-white shadow rounded border" style={{ width: "250px" }}>
-          <h6 className="mb-1">{user.Name}</h6>
-          <p className="text-muted">{user.username}</p>
+        <div className="position-absolute top-100 end-0 mt-2 p-3 shadow rounded border toggle-window" style={{ width: "250px" }}>
+          <p className="mb-1"><strong>Name Surname:</strong><br/> {user.username}</p>
           <p className="mb-1"><strong>Email:</strong> {user.email}</p>
           <button className="btn btn-outline-primary w-100 mt-2" onClick={() => navigate(Pages.PROFILE)}>Настройки</button>
           <button className="btn btn-outline-danger w-100 mt-2" onClick={logoutClick}>Выйти</button>
