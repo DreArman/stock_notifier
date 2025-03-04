@@ -1,9 +1,10 @@
 import { useState } from "react";
+import TelegramButton from "../../components/TelegramButton";
 
 const Profile = () => {
     const [formData, setFormData] = useState({
         nameSurname: "",
-        telegram: "",
+        telegram: null,
         password: ""
       });
     
@@ -59,17 +60,8 @@ const Profile = () => {
                   </div>
     
                   <div className="col-12">
-                    <label htmlFor="telegram" className="form-label">Telegram Username</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="telegram"
-                      name="telegram"
-                      placeholder="@yourtelegram"
-                      value={formData.telegram}
-                      onChange={handleChange}
-                      required
-                    />
+                    <label htmlFor="telegram" className="form-label">Telegram</label>
+                    <TelegramButton telegramID={formData.telegram} />
                   </div>
     
                   <div className="col-12">
