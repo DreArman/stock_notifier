@@ -1,19 +1,15 @@
-class User {
-  constructor({ id, email, name, role }) {
-    this.id = id;
+export class User {
+  constructor({ email = 'email', name = 'name', telegramId = 'telegramId' } = {}) {
     this.email = email;
     this.name = name;
-    this.role = role;
+    this.telegramId = telegramId;
   }
 
   static fromJson(json) {
     return new User({
-      id: json.id,
-      email: json.email,
-      name: json.name,
-      role: json.role,
+      email: json.user_email,
+      name: json.username,
+      telegramId: json.user_telegram_id,
     });
   }
 }
-
-export default User;

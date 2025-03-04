@@ -1,21 +1,23 @@
 import { useState, useContext, useEffect, useRef } from 'react';
-import PropTypes from 'prop-types';
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from '../context/AuthContext';
 import Pages from "../constants/Pages";
+import PropTypes from 'prop-types';
 
 const ProfileButton = ({ user }) => {
+
   const [showProfile, setShowProfile] = useState(false);
-  const navigate = useNavigate();
-  const { logout } = useContext(AuthContext);
   const profileRef = useRef(null);
 
-  const toggleProfile = () => setShowProfile(!showProfile);
+  const { logout } = useContext(AuthContext);
+  const navigate = useNavigate();
+  
   const logoutClick = async () => {
     await logout();
     navigate(Pages.SIGN_IN);
   };
-
+  
+  const toggleProfile = () => setShowProfile(!showProfile);
   const handleClickOutside = (event) => {
     if (profileRef.current && !profileRef.current.contains(event.target)) {
       setShowProfile(false);
@@ -40,8 +42,8 @@ const ProfileButton = ({ user }) => {
 
       {showProfile && (
         <div className="position-absolute top-100 end-0 mt-2 p-3 bg-white shadow rounded border" style={{ width: "250px" }}>
-          <h6 className="mb-1">{user.Name}</h6>
-          <p className="text-muted">{user.username}</p>
+          <h6 className="mb-1">Name</h6>
+          <p className="text-muted">{user.name}</p>
           <p className="mb-1"><strong>Email:</strong> {user.email}</p>
           <button className="btn btn-outline-primary w-100 mt-2" onClick={() => navigate(Pages.PROFILE)}>Настройки</button>
           <button className="btn btn-outline-danger w-100 mt-2" onClick={logoutClick}>Выйти</button>
@@ -50,13 +52,12 @@ const ProfileButton = ({ user }) => {
     </div>
   );
 };
-
 ProfileButton.propTypes = {
   user: PropTypes.shape({
-    Name: PropTypes.string.isRequired,
-    username: PropTypes.string.isRequired,
-    email: PropTypes.string.isRequired,
-  }).isRequired,
+    name: PropTypes.string,
+    email: PropTypes.string,
+    telegramId: PropTypes.string,
+  }),
 };
 
 export default ProfileButton;
