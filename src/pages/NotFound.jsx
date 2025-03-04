@@ -1,5 +1,6 @@
 import { NavLink } from "react-router-dom";
 import Pages from "../constants/Pages";
+import Loading from "../components/Loading";
 
 const NotFound = () => {
   return (
@@ -10,6 +11,7 @@ const NotFound = () => {
       <NavLink to={Pages.ROOT} className="btn btn-primary mt-3">
         Go Home
       </NavLink>
+      {/* <Loading text="Loading data..."/> */}
     </div>
   );
 };

@@ -1,8 +1,9 @@
-const Loading = () => {
+const Loading = ({ text = "" }) => {
   return (
     <div className="d-flex justify-content-center align-items-center vh-100">
-      <div className="spinner-border text-primary" role="status">
-        <span className="visually-hidden">Loading...</span>
+      <div className="d-flex align-items-center gap-2">
+        <div className="spinner-border text-primary" role="status"></div>
+        <span>{text}</span>
       </div>
     </div>
   );
