@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Pages from './constants/Pages';
-import Home from './pages/main/Home';
+import Home from './pages/Home';
 import Forecast from './pages/main/Forecast';
 import Alert from './pages/main/Alert';
 import Stocks from './pages/main/Stocks';
@@ -11,10 +11,7 @@ import PublicRoute from './components/auth/PublicRoute';
 import Layout from './components/Layout';
 import { AuthProvider } from './context/AuthContext.jsx';
 import Profile from './pages/main/Profile.jsx';
-
-function NotFound() {
-  return <h1>404 - Page Not Found</h1>;
-}
+import NotFound from './pages/NotFound.jsx';
 
 function App() {
   return (

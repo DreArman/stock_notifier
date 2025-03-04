@@ -1,4 +1,4 @@
-import Pages from "../../constants/Pages";
+import Pages from "../constants/Pages";
 
 const Home = () => {
   return (
