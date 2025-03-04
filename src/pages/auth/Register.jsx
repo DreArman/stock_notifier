@@ -2,6 +2,7 @@ import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 import Pages from '../../constants/Pages';
+import Logo from '../../components/Logo';
 
 const Register = () => {
   const [username, setUsername] = useState("");
@@ -21,9 +22,9 @@ const Register = () => {
         onSubmit={handleSubmit}
         className="w-25 p-4 bg-body-primary rounded-3"
       >
-        <a className="d-flex justify-content-center" href={Pages.ROOT} >
-          <img className="mb-4" src="https://cdn-icons-png.flaticon.com/512/17473/17473639.png" width="80" height="80" />
-        </a>
+        <div className="d-flex justify-content-center" href={Pages.ROOT} >
+          <Logo width={80} height={80} />
+        </div>
         <h1 className="h3 mb-3 fw-normal">Please Sign Up</h1>
 
         <div className="form-floating">

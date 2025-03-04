@@ -1,10 +1,11 @@
 import { useState, useContext } from 'react';
-import { NavLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Pages from "../constants/Pages";
 import NotificationButton from './NotificationButton';
 import ProfileButton from './ProfileButton';
 import NavLinks from './NavLinks';
 import { AuthContext } from '../context/AuthContext';
+import Logo from './Logo';
 
 const Header = () => {
   const user = {
@@ -27,9 +28,7 @@ const Header = () => {
 
   return (
     <header className="d-flex flex-wrap align-items-center justify-content-between py-3 mb-4 p-4 border-bottom">
-      <NavLink to={Pages.ROOT} className="me-5 p-2">
-        <img className="bi bi-graph-up" src="https://cdn-icons-png.flaticon.com/512/17473/17473639.png" width="40" height="40" />
-      </NavLink>
+      <Logo />
 
       <NavLinks />
 
