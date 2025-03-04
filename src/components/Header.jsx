@@ -7,8 +7,8 @@ import Logo from './Logo';
 
 const Header = () => {
   const [notifications] = useState([
-    { id: 1, text: "Новое сообщение от администратора", read: false },
-    { id: 2, text: "Система обновлена до версии 2.1", read: false },
+    { id: 1, text: "Новое сообщение от администратора", read: true },
+    { id: 2, text: "Система обновлена до версии 2.1", read: true },
     { id: 3, text: "Ваш отчет готов к скачиванию", read: true },
   ]);
 

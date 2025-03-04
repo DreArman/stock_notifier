@@ -3,7 +3,6 @@ import { useState } from "react";
 const Profile = () => {
     const [formData, setFormData] = useState({
         nameSurname: "",
-        username: "",
         telegram: "",
         password: ""
       });
@@ -25,7 +24,7 @@ const Profile = () => {
           </div>
           <div className="row g-5">
             <div className="col-md-7 col-lg-8">
-              <h4 className="mb-3">Billing Information</h4>
+              <h4 className="mb-3">Edit Profile</h4>
               <form className="needs-validation" onSubmit={handleSubmit} noValidate>
                 <div className="row g-3">
                   <div className="col-12">
