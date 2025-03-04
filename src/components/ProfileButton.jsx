@@ -52,8 +52,8 @@ const ProfileButton = ({ user }) => {
 
       {showProfile && (
         <div className="position-absolute top-100 end-0 mt-2 p-3 shadow rounded border toggle-window" style={{ width: "250px" }}>
-          <p className="mb-1"><strong>Name Surname:</strong><br/> {user.name}</p>
-          <p className="mb-1"><strong>Email:</strong> {user.email}</p>
+          <p className="mb-1"><strong>Name Surname:</strong><br/>{user.username}</p>
+          <p className="mb-1"><strong>Email:</strong><br/>{user.email}</p>
           <button className="btn btn-outline-primary w-100 mt-2" onClick={() => navigate(Pages.PROFILE)}>Настройки</button>
           <button className="btn btn-outline-danger w-100 mt-2" onClick={logoutClick}>Выйти</button>
         </div>
@@ -63,7 +63,7 @@ const ProfileButton = ({ user }) => {
 };
 ProfileButton.propTypes = {
   user: PropTypes.shape({
-    name: PropTypes.string,
+    username: PropTypes.string,
     email: PropTypes.string,
     telegramId: PropTypes.string,
   }),

@@ -1,14 +1,14 @@
 export class User {
-  constructor({ email = 'email', name = 'name', telegramId = 'telegramId' } = {}) {
+  constructor({ email = 'email@gmail.com', username = 'name surname', telegramId = 'telegramId' } = {}) {
     this.email = email;
-    this.name = name;
+    this.username = username;
     this.telegramId = telegramId;
   }
 
   static fromJson(json) {
     return new User({
       email: json.user_email,
-      name: json.username,
+      username: json.username,
       telegramId: json.user_telegram_id,
     });
   }
