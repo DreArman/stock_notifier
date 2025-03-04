@@ -1,14 +1,28 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 
 const NotificationButton = ({ notifications }) => {
   const [showNotifications, setShowNotifications] = useState(false);
+  const notificationRef = useRef(null);
   const hasUnread = notifications.some((notif) => !notif.read);
 
   const toggleNotifications = () => setShowNotifications(!showNotifications);
 
+  const handleClickOutside = (event) => {
+    if (notificationRef.current && !notificationRef.current.contains(event.target)) {
+      setShowNotifications(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
   return (
-    <div className="position-relative me-3">
+    <div className="position-relative me-3" ref={notificationRef}>
       <button className="btn btn-light border-0" onClick={toggleNotifications}>
         {hasUnread ? (
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" className="bi bi-bell-fill" viewBox="0 0 16 16">
@@ -38,6 +52,7 @@ const NotificationButton = ({ notifications }) => {
     </div>
   );
 };
+
 NotificationButton.propTypes = {
   notifications: PropTypes.arrayOf(
     PropTypes.shape({
