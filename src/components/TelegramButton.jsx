@@ -1,26 +1,30 @@
 import { useState } from "react";
 import PropTypes from 'prop-types';
 
-const TelegramButton = ({telegramID}) => {
+const TelegramButton = ({ telegramID, onLinkTelegram }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [code, setCode] = useState("");
+
+  const handleLinkTelegram = () => {
+    onLinkTelegram(code);
+    setIsOpen(false);
+  };
 
   return (
     <>
-      {/* Кнопка открытия модального окна */}
       <button
         className="btn btn-primary"
         onClick={() => setIsOpen(true)}
       >
-        {telegramID||"Not Linked"}
+        {telegramID || "Not Linked"}
       </button>
 
-      {/* Модальное окно */}
       {isOpen && (
         <div className="modal fade show d-block" tabIndex="-1">
           <div className="modal-dialog">
             <div className="modal-content rounded-4 shadow">
               <div className="modal-header border-bottom-0">
-                <h1 className="modal-title fs-5">Modal title</h1>
+                <h1 className="modal-title fs-5">Link Telegram</h1>
                 <button
                   type="button"
                   className="btn-close"
@@ -30,25 +34,23 @@ const TelegramButton = ({telegramID}) => {
               </div>
               <div className="modal-body py-0">
                 <p>
-                  This is a modal sheet, a variation of the modal that docs
-                  itself to the bottom of the viewport like the newer share
-                  sheets in iOS.
+                  To link your Telegram account, please send /start command to our bot <a href="https://t.me/your_bot">@your_bot</a> end write down the telegramID here:
                 </p>
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Enter Telegram ID"
+                  value={code}
+                  onChange={(e) => setCode(e.target.value)}
+                />
               </div>
               <div className="modal-footer flex-column align-items-stretch w-100 gap-2 pb-3 border-top-0">
                 <button
                   type="button"
                   className="btn btn-lg btn-primary"
-                  onClick={() => setIsOpen(false)}
+                  onClick={handleLinkTelegram}
                 >
-                  Save changes
-                </button>
-                <button
-                  type="button"
-                  className="btn btn-lg btn-secondary"
-                  onClick={() => setIsOpen(false)}
-                >
-                  Close
+                  Link Telegram
                 </button>
               </div>
             </div>
@@ -56,13 +58,14 @@ const TelegramButton = ({telegramID}) => {
         </div>
       )}
 
-      {/* Затемнение фона при открытии модального окна */}
       {isOpen && <div className="modal-backdrop fade show"></div>}
     </>
   );
 };
+
 TelegramButton.propTypes = {
-  telegramID: PropTypes.string
+  telegramID: PropTypes.string,
+  onLinkTelegram: PropTypes.func.isRequired,
 };
 
 export default TelegramButton;
