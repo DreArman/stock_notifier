@@ -5,18 +5,17 @@ import Pages from "../../constants/Pages";
 import PropTypes from 'prop-types';
 
 const ProfileButton = ({ user }) => {
-
   const [showProfile, setShowProfile] = useState(false);
   const profileRef = useRef(null);
 
   const { logout } = useContext(AuthContext);
   const navigate = useNavigate();
-  
+
   const logoutClick = async () => {
     await logout();
     navigate(Pages.SIGN_IN);
   };
-  
+
   const toggleProfile = () => setShowProfile(!showProfile);
   const handleClickOutside = (event) => {
     if (profileRef.current && !profileRef.current.contains(event.target)) {
@@ -51,7 +50,7 @@ const ProfileButton = ({ user }) => {
       </button>
 
       {showProfile && (
-        <div className="position-absolute top-100 end-0 mt-2 p-3 shadow rounded border toggle-window" style={{ width: "250px" }}>
+        <div className="position-absolute top-100 end-0 mt-2 p-3 shadow rounded border card" style={{ width: "250px", zIndex: 1050}}>
           <p className="mb-1"><strong>Name Surname:</strong><br/>{user.username}</p>
           <p className="mb-1"><strong>Email:</strong><br/>{user.email}</p>
           <button className="btn btn-outline-primary w-100 mt-2" onClick={() => navigate(Pages.PROFILE)}>Настройки</button>
@@ -61,6 +60,7 @@ const ProfileButton = ({ user }) => {
     </div>
   );
 };
+
 ProfileButton.propTypes = {
   user: PropTypes.shape({
     username: PropTypes.string,

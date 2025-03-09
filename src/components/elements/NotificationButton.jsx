@@ -56,7 +56,7 @@ const NotificationButton = ({ notifications }) => {
       </button>
 
       {showNotifications && (
-        <div className="position-absolute top-100 end-0 mt-2 p-3 shadow rounded border toggle-window" style={{ width: "250px" }}>
+        <div className="position-absolute top-100 end-0 mt-2 p-3 shadow rounded border toggle-window card" style={{ width: "250px", zIndex: 1050}}>
           <h6 className="mb-2">Уведомления</h6>
           {notifications.length > 0 ? (
             notifications.map((notif) => (
