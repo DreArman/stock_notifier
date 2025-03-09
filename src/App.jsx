@@ -1,4 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { AuthProvider } from './context/AuthContext.jsx';
+import Layout from './components/Layout';
 import Pages from './constants/Pages';
 import Home from './pages/Home';
 import Forecast from './pages/main/Forecast';
@@ -8,8 +10,6 @@ import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
 import ProtectedRoute from './components/auth/ProtectedRoute';
 import PublicRoute from './components/auth/PublicRoute';
-import Layout from './components/Layout';
-import { AuthProvider } from './context/AuthContext.jsx';
 import Profile from './pages/main/Profile.jsx';
 import NotFound from './pages/NotFound.jsx';
 

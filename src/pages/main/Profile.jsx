@@ -1,5 +1,5 @@
 import { useState } from "react";
-import TelegramButton from "../../components/TelegramButton";
+import TelegramButton from "../../components/elements/TelegramButton";
 
 const Profile = () => {
   const [formData, setFormData] = useState({

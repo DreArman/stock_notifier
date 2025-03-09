@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom';
-import Pages from '../constants/Pages';
+import Pages from '../../constants/Pages';
 import PropTypes from 'prop-types';
 
 const Logo = ({ width = 40, height = 40 }) => {

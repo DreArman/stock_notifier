@@ -1,9 +1,9 @@
 import { useState, useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
-import NotificationButton from './NotificationButton';
-import ProfileButton from './ProfileButton';
+import NotificationButton from './elements/NotificationButton';
+import ProfileButton from './elements/ProfileButton';
 import NavLinks from './NavLinks';
-import Logo from './Logo';
+import Logo from './elements/Logo';
 
 const Header = () => {
   const [notifications] = useState([

@@ -1,7 +1,7 @@
 import { useState, useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import Pages from '../../constants/Pages';
-import Logo from '../../components/Logo';
+import Logo from '../../components/elements/Logo';
 
 const Login = () => {
   const [email, setEmail] = useState("");

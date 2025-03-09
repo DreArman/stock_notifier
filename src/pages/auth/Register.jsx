@@ -2,7 +2,7 @@ import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 import Pages from '../../constants/Pages';
-import Logo from '../../components/Logo';
+import Logo from '../../components/elements/Logo';
 
 const Register = () => {
   const [username, setUsername] = useState("");

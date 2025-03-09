@@ -1,4 +1,4 @@
-import TelegramButton from "../../components/TelegramButton"
+import TelegramButton from "../../components/elements/TelegramButton"
 
 const Alert = () => {
   return (

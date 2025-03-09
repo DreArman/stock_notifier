@@ -1,7 +1,7 @@
 import { useState, useContext, useEffect, useRef } from 'react';
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from '../context/AuthContext';
-import Pages from "../constants/Pages";
+import { AuthContext } from '../../context/AuthContext';
+import Pages from "../../constants/Pages";
 import PropTypes from 'prop-types';
 
 const ProfileButton = ({ user }) => {
