@@ -1,5 +1,5 @@
 export class User {
-  constructor({ email = 'email@gmail.com', username = 'name surname', telegramId = 'telegramId' } = {}) {
+  constructor({ email = '', username = '', telegramId = '' } = {}) {
     this.email = email;
     this.username = username;
     this.telegramId = telegramId;

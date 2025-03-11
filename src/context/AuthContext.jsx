@@ -7,7 +7,7 @@ import { User } from '../models/User';
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [isAuth, setIsAuth] = useState(localStorage.getItem('access_token') === null);
+  const [isAuth, setIsAuth] = useState(localStorage.getItem('access_token') !== null);
   const [user, setUser] = useState(new User());
 
   useEffect(() => {
@@ -22,6 +22,7 @@ export const AuthProvider = ({ children }) => {
   const login = async (email, password) => {
     const login_data = await loginService(email, password); 
     console.log(login_data)
+    localStorage.setItem("access_token", login_data.access_token);
     setIsAuth(true);
     // Optionally, set user data here
     const user_data = await getUserData();
@@ -39,8 +40,9 @@ export const AuthProvider = ({ children }) => {
   const logout = async () => {
     const data = await logoutService();
     console.log(data);
+    localStorage.removeItem("access_token");
     setIsAuth(false);
-    // setUser(null);
+    setUser(new User());
   };
 
   return (

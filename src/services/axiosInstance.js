@@ -6,7 +6,7 @@ const API_URL = import.meta.env.VITE_SERVER_URL;
 
 const axiosInstance = axios.create({
   baseURL: API_URL,
-  withCredentials: true, // Автоматически отправляем куки //todo uncomment future
+  withCredentials: true, // Автоматически отправляем куки
 });
 
 axiosInstance.interceptors.request.use(
@@ -24,6 +24,9 @@ axiosInstance.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
+    if (['/login', '/register', '/refresh'].includes(originalRequest.url)) {
+      return Promise.reject(error);
+    }
     if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
       try {

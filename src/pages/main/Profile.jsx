@@ -1,5 +1,6 @@
 import { useState } from "react";
 import TelegramButton from "../../components/elements/TelegramButton";
+import { getUserData } from "../../services/userService";
 
 const Profile = () => {
   const [formData, setFormData] = useState({
@@ -11,9 +12,11 @@ const Profile = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Submitted Data:", formData);
+    const profile =  await getUserData();
+    console.log(profile);
+    // console.log("Submitted Data:", formData);
   };
 
   const handleLinkTelegram = (code) => {
