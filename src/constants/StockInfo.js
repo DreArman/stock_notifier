@@ -45,12 +45,12 @@ const purchasedStocks = [
     {
       symbol: "GOOGL",
       company: "Alphabet Inc.",
-      quantity: 5,
+      quantity: null,
       current: 650.50,
       totalCurrent: 3252.50,
       purchased: null,
       totalPurchased: null,
-      totalReturn: { value: "+$152.50", percent: "4.9%" },
+      totalReturn: null,
     },
   ];
 
