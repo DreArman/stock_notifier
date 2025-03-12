@@ -15,9 +15,9 @@ export const getUserData = async () => {
   }
 };
 
-export const setUserData = async () => {
+export const setUserData = async (user) => {
   try {
-    const response = await API.put("/user");
+    const response = await API.put("/user", { username: user.username, user_telegram_id: user.telegramID });
     return response.data;
     
     // const data = await response.json();

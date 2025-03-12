@@ -7,29 +7,34 @@ import { User } from "../../models/User";
 const Profile = () => {
   const { user, setUser } = useContext(AuthContext);
   const [username, setUsername] = useState(user.username);
+  const [password, setPassword] = useState("");
+  const [code, setCode] = useState(user.telegramID);
   console.log(user);
 
   const handleChange = (e) => {
     setUsername(e.target.value);
   };
 
-  const handleSubmit = async () => {
-    setUser(
-      new User({email: user.email, username: username, telegramID: user.telegramID})
-    );
-    const profile =  await setUserData();
-    console.log(profile);
-    // console.log("Submitted Data:", formData);
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value);
   };
 
-  const handleLinkTelegram = (code) => {
-    // Handle linking Telegram with the provided code
-    console.log("Linking Telegram with code:", code);
-    // setTelgramID(code); /TODO 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setUser(
+      new User({email: user.email, username: username, telegramID: code})
+    );
+    const data =  await setUserData(user);
+    console.log(data);
+  };
+
+  const handlePasswordSubmit = async (e) => { 
+    e.preventDefault();
+    console.log("Submitted Password:", password);
   };
 
   return (
-    <main className="container py-1 align-items-center justify-content-center">
+    <main className="container pt-5 w-50 align-items-center justify-content-center">
       <div className="text-center">
         <h2>Edit Profile</h2>
         <p className="lead">Fill in your details below to update your profile.</p>
@@ -55,7 +60,7 @@ const Profile = () => {
 
               <div className="col-12">
                 <label htmlFor="telegram" className="form-label">Telegram</label><br/>
-                <TelegramButton telegramID={user.telegramID} onLinkTelegram={handleLinkTelegram} />
+                <TelegramButton telegramID={code} setCode={setCode} />
               </div>
             </div>
             <hr className="my-4" />
@@ -64,10 +69,21 @@ const Profile = () => {
             </button>
           </form>
         </div>
-        <div className="col-lg-6">
+        <div className="col-lg-6" >
           <h4 className="mb-3">Change Password</h4>
-          <form className="needs-validation" onSubmit={handleSubmit} noValidate>
+          <form className="needs-validation" onSubmit={handlePasswordSubmit} noValidate>
             <div className="row g-4 py-3 row-cols-lg-1">
+            <div className="col-12">
+                <label htmlFor="password" className="form-label">Old Password</label>
+                <input
+                  type="password"
+                  className="form-control"
+                  id="old_password"
+                  name="password"
+                  placeholder="Old Password"
+                  onChange={handlePasswordChange}
+                />
+              </div>
               <div className="col-12">
                 <label htmlFor="password" className="form-label">New Password</label>
                 <input
@@ -76,7 +92,7 @@ const Profile = () => {
                   id="new_password"
                   name="password"
                   placeholder="New Password"
-                  onChange={handleChange}
+                  required={password ? true : false}
                 />
               </div>
               <div className="col-12">
@@ -86,8 +102,8 @@ const Profile = () => {
                   className="form-control"
                   id="repeat_password"
                   name="password"
-                  placeholder="New Password"
-                  onChange={handleChange}
+                  placeholder="Repeat Password"
+                  required={password ? true : false}
                 />
               </div>
             </div>

@@ -1,18 +1,21 @@
 import { useState } from "react";
 import PropTypes from 'prop-types';
 
-const TelegramButton = ({ telegramID, onLinkTelegram }) => {
+const TelegramButton = ({ telegramID, setCode }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [code, setCode] = useState("");
+  const [newCode, setNewCode] = useState(telegramID);
 
   const handleLinkTelegram = () => {
-    onLinkTelegram(code);
+    // TODO chat_id reqired if else
+    console.log(newCode);
+    setCode(newCode);
     setIsOpen(false);
   };
 
   return (
     <>
       <button
+        type="button"
         className="btn btn-primary"
         onClick={() => setIsOpen(true)}
       >
@@ -25,7 +28,7 @@ const TelegramButton = ({ telegramID, onLinkTelegram }) => {
             <div className="modal-header border-bottom-0">
               <h1 className="modal-title fs-5">Link Telegram</h1>
               <button type="button" className="btn-close"
-                onClick={() => setIsOpen(false)}
+                onClick={() => { setIsOpen(false); setNewCode(telegramID); }}
                 aria-label="Close"
               ></button>
             </div>
@@ -35,13 +38,12 @@ const TelegramButton = ({ telegramID, onLinkTelegram }) => {
               </p>
               <input type="text" className="form-control"
                 placeholder="Enter Telegram ID"
-                value={code}
-                onChange={(e) => setCode(e.target.value)}
+                value={newCode}
+                onChange={(e) => setNewCode(e.target.value)}
               />
             </div>
             <div className="modal-footer flex-column align-items-stretch w-100 gap-2 pb-3 border-top-0">
-              <button type="button" className="btn btn-lg btn-primary" 
-                onClick={handleLinkTelegram}>
+              <button type="button" onClick={handleLinkTelegram} className="btn btn-lg btn-primary">
                 Link Telegram
               </button>
             </div>
@@ -56,7 +58,7 @@ const TelegramButton = ({ telegramID, onLinkTelegram }) => {
 
 TelegramButton.propTypes = {
   telegramID: PropTypes.string,
-  onLinkTelegram: PropTypes.func.isRequired,
+  setCode: PropTypes.func.isRequired,
 };
 
 export default TelegramButton;
