@@ -7,8 +7,8 @@ import { User } from '../models/User';
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [isAuth, setIsAuth] = useState(localStorage.getItem('access_token') === null);
-  const [user, setUser] = useState(new User());
+  const [isAuth, setIsAuth] = useState(localStorage.getItem('access_token') !== null);
+  const [user, setUser] = useState(localStorage.getItem('user') !== null ? User.fromJson(JSON.parse(localStorage.getItem('user'))) : new User());
 
   useEffect(() => {
     // Check if user is authenticated on initial load
@@ -28,6 +28,7 @@ export const AuthProvider = ({ children }) => {
     const user_data = await getUserData();
     console.log(user_data)
     setUser(User.fromJson(user_data));
+    localStorage.setItem("user", JSON.stringify(user_data));
   };
 
   const register = async (username, email, password) => {

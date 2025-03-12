@@ -16,7 +16,7 @@ const TelegramButton = ({ telegramID, onLinkTelegram }) => {
         className="btn btn-primary"
         onClick={() => setIsOpen(true)}
       >
-        {telegramID || "Not Linked"}
+        {telegramID ? "Linked" : "Not Linked"} 
       </button>
 
       {isOpen && (
@@ -31,7 +31,7 @@ const TelegramButton = ({ telegramID, onLinkTelegram }) => {
             </div>
             <div className="modal-body py-0">
               <p>
-                To link your Telegram account, please send /start command to our bot <a href="https://t.me/your_bot">@your_bot</a> end write down the telegramID here:
+                To link your Telegram account, please send the <code>/start</code> command to our bot <a href="https://t.me/stock_notifier_telegram_bot">@stock_notifier_bot</a> and enter the Telegram ID provided:
               </p>
               <input type="text" className="form-control"
                 placeholder="Enter Telegram ID"

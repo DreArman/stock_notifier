@@ -13,7 +13,7 @@ const ProfileButton = ({ user }) => {
 
   const logoutClick = async () => {
     await logout();
-    navigate(Pages.SIGN_IN);
+    window.location.href = Pages.SIGN_IN;
   };
 
   const toggleProfile = () => setShowProfile(!showProfile);
@@ -65,7 +65,7 @@ ProfileButton.propTypes = {
   user: PropTypes.shape({
     username: PropTypes.string,
     email: PropTypes.string,
-    telegramId: PropTypes.string,
+    telegramID: PropTypes.string,
   }),
 };
 
