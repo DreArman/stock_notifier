@@ -24,7 +24,7 @@ const Stocks = () => {
         </li>
         <li className="nav-item">
           <button 
-            className={`nav-link ${activeTab === "saved" ? "active" : ""}`} 
+            className={`nav-link ${activeTab === "saved" ? "active" : ""} mx-1`} 
             onClick={() => setActiveTab("saved")}
           >
             Saved Stocks
