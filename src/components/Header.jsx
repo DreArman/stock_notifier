@@ -15,6 +15,7 @@ const Header = () => {
   ]);
 
   const { user } = useContext(AuthContext);
+  const { isAuth } = useContext(AuthContext);
 
   return (
     <header className="d-flex flex-wrap align-items-center justify-content-between py-3 mb-4 p-4 border-bottom">
@@ -23,12 +24,12 @@ const Header = () => {
       <NavLinks />
 
       <div className="d-flex align-items-center ms-auto">
-        {AuthContext ? (<>
+        {isAuth ? (<>
+        <ProfileButton user={user}/>
+        <NotificationButton notifications={notifications} />
+        </>):(<>
         <NavLink to={Pages.SIGN_IN} className="btn btn-outline-primary me-2">Login</NavLink>
         <NavLink to={Pages.SIGN_UP} className="btn btn-primary">Sign-up</NavLink>
-        </>):(<>
-        <NotificationButton notifications={notifications} />
-        <ProfileButton user={user}/>
         </>
       )}
         
