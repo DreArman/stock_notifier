@@ -4,6 +4,8 @@ import NotificationButton from './elements/NotificationButton';
 import ProfileButton from './elements/ProfileButton';
 import NavLinks from './NavLinks';
 import Logo from './elements/Logo';
+import Pages from '../constants/Pages';
+import { NavLink } from 'react-router-dom';
 
 const Header = () => {
   const [notifications] = useState([
@@ -21,8 +23,15 @@ const Header = () => {
       <NavLinks />
 
       <div className="d-flex align-items-center ms-auto">
+        {AuthContext ? (<>
+        <NavLink to={Pages.SIGN_IN} className="btn btn-outline-primary me-2">Login</NavLink>
+        <NavLink to={Pages.SIGN_UP} className="btn btn-primary">Sign-up</NavLink>
+        </>):(<>
         <NotificationButton notifications={notifications} />
         <ProfileButton user={user}/>
+        </>
+      )}
+        
       </div>
     </header>
   );

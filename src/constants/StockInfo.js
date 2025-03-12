@@ -48,8 +48,8 @@ const purchasedStocks = [
       quantity: 5,
       current: 650.50,
       totalCurrent: 3252.50,
-      purchased: 620.00,
-      totalPurchased: 3100.00,
+      purchased: null,
+      totalPurchased: null,
       totalReturn: { value: "+$152.50", percent: "4.9%" },
     },
   ];

@@ -41,7 +41,7 @@ const Stocks = () => {
 
       {/* Add New Stock Button */}
       <div className="text-center mt-4">
-        <AddStockButton />
+        <AddStockButton type={activeTab}/>
       </div>
     </div>
   );

@@ -7,16 +7,26 @@ const StockCard = ({ stock }) => {
         <h2 className="fw-bold">{stock.symbol}</h2>
         <p className="text-muted">{stock.company}</p>
 
-        <p>Quantity: <strong>{stock.quantity}</strong></p>
-        <p>Current Price: <strong>${stock.current}</strong></p>
-        <p>Total Current: <strong>${stock.totalCurrent.toFixed(2)}</strong></p>
-        
-        <p>Purchased Price: <strong>${stock.purchased}</strong></p>
-        <p>Total Purchased: <strong>${stock.totalPurchased.toFixed(2)}</strong></p>
-
-        <p className="text-success fw-bold">
-          Total Return: {stock.totalReturn.value} ({stock.totalReturn.percent})
-        </p>
+        {stock.quantity !== null && (
+          <p>Quantity: <strong>{stock.quantity}</strong></p>
+        )}
+        {stock.current !== null && (
+          <p>Current Price: <strong>${stock.current}</strong></p>
+        )}
+        {stock.totalCurrent !== null && (
+          <p>Total Current: <strong>${stock.totalCurrent.toFixed(2)}</strong></p>
+        )}
+        {stock.purchased !== null && (
+          <p>Purchased Price: <strong>${stock.purchased}</strong></p>
+        )}
+        {stock.totalPurchased !== null && (
+          <p>Total Purchased: <strong>${stock.totalPurchased.toFixed(2)}</strong></p>
+        )}
+        {stock.totalReturn && stock.totalReturn.value !== null && stock.totalReturn.percent !== null && (
+          <p className="text-success fw-bold">
+            Total Return: {stock.totalReturn.value} ({stock.totalReturn.percent})
+          </p>
+        )}
       </div>
     </div>
   );
@@ -26,15 +36,15 @@ StockCard.propTypes = {
   stock: PropTypes.shape({
     symbol: PropTypes.string.isRequired,
     company: PropTypes.string.isRequired,
-    quantity: PropTypes.number.isRequired, 
-    current: PropTypes.number.isRequired,
-    totalCurrent: PropTypes.number.isRequired,
-    purchased: PropTypes.number.isRequired,
-    totalPurchased: PropTypes.number.isRequired,
+    quantity: PropTypes.number,
+    current: PropTypes.number,
+    totalCurrent: PropTypes.number,
+    purchased: PropTypes.number,
+    totalPurchased: PropTypes.number,
     totalReturn: PropTypes.shape({
-      value: PropTypes.string.isRequired,
-      percent: PropTypes.string.isRequired,    
-  }).isRequired,
+      value: PropTypes.string,
+      percent: PropTypes.string,
+    }),
   }).isRequired,
 };
 
