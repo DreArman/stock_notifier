@@ -32,7 +32,7 @@ const ProfileButton = ({ user }) => {
 
   return (
     <div className="position-relative" ref={profileRef}>
-      <button className="btn border-0" data-theme onClick={toggleProfile}>
+      <button className="btn border-2" data-theme onClick={toggleProfile}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="24"

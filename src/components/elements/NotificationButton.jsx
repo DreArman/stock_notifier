@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 const NotificationButton = ({ notifications }) => {
   const [showNotifications, setShowNotifications] = useState(false);
   const notificationRef = useRef(null);
-  const hasUnread = notifications.some((notif) => !notif.read);
+  // const hasUnread = notifications.some((notif) => !notif.read);
 
   const toggleNotifications = () => setShowNotifications(!showNotifications);
 
@@ -22,9 +22,9 @@ const NotificationButton = ({ notifications }) => {
   }, []);
 
   return (
-    <div className="position-relative me-3" ref={notificationRef}>
-      <button className="btn border-0" data-theme onClick={toggleNotifications}>
-        {hasUnread ? (
+    <div className="position-relative pb-1" ref={notificationRef}>
+      <button className="btn border-2" data-theme onClick={toggleNotifications}>
+        {showNotifications ? (
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"

@@ -25,8 +25,8 @@ const Header = () => {
 
       <div className="d-flex align-items-center ms-auto">
         {isAuth ? (<>
-        <ProfileButton user={user}/>
         <NotificationButton notifications={notifications} />
+        <ProfileButton user={user}/>
         </>):(<>
         <NavLink to={Pages.SIGN_IN} className="btn btn-outline-primary me-2">Login</NavLink>
         <NavLink to={Pages.SIGN_UP} className="btn btn-primary">Sign-up</NavLink>
