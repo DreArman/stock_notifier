@@ -1,20 +1,23 @@
-import { useState } from "react";
 import TelegramButton from "../../components/elements/TelegramButton";
-import { getUserData } from "../../services/userService";
+import { setUserData } from "../../services/userService";
+import { useContext, useState } from "react";
+import { AuthContext } from "../../context/AuthContext";
+import { User } from "../../models/User";
 
 const Profile = () => {
-  const [formData, setFormData] = useState({
-    nameSurname: "John Doe", // Pre-fill with current name
-    telegram: 99999
-  });
+  const { user, setUser } = useContext(AuthContext);
+  const [username, setUsername] = useState(user.username);
+  console.log(user);
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setUsername(e.target.value);
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const profile =  await getUserData();
+  const handleSubmit = async () => {
+    setUser(
+      new User({email: user.email, username: username, telegramID: user.telegramID})
+    );
+    const profile =  await setUserData();
     console.log(profile);
     // console.log("Submitted Data:", formData);
   };
@@ -22,7 +25,7 @@ const Profile = () => {
   const handleLinkTelegram = (code) => {
     // Handle linking Telegram with the provided code
     console.log("Linking Telegram with code:", code);
-    setFormData({ ...formData, telegram: "Linked" });
+    // setTelgramID(code); /TODO 
   };
 
   return (
@@ -43,7 +46,7 @@ const Profile = () => {
                 id="nameSurname"
                 name="nameSurname"
                 placeholder="John Doe"
-                value={formData.nameSurname}
+                value={username}
                 onChange={handleChange}
                 required
               />
@@ -51,7 +54,7 @@ const Profile = () => {
 
             <div className="col-12">
               <label htmlFor="telegram" className="form-label">Telegram</label><br/>
-              <TelegramButton telegramID={formData.telegram} onLinkTelegram={handleLinkTelegram} />
+              <TelegramButton telegramID={user.telegramID} onLinkTelegram={handleLinkTelegram} />
             </div>
           </div>
           <hr className="my-4" />
@@ -67,7 +70,7 @@ const Profile = () => {
               <input
                 type="password"
                 className="form-control"
-                id="password"
+                id="new_password"
                 name="password"
                 placeholder="New Password"
                 onChange={handleChange}
@@ -78,7 +81,7 @@ const Profile = () => {
               <input
                 type="password"
                 className="form-control"
-                id="password"
+                id="repeat_password"
                 name="password"
                 placeholder="New Password"
                 onChange={handleChange}
