@@ -9,7 +9,6 @@ const Profile = () => {
   const [username, setUsername] = useState(user.username);
   const [password, setPassword] = useState("");
   const [code, setCode] = useState(user.telegramID);
-  console.log(user);
 
   const handleChange = (e) => {
     setUsername(e.target.value);

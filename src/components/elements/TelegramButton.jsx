@@ -7,7 +7,6 @@ const TelegramButton = ({ telegramID, setCode }) => {
 
   const handleLinkTelegram = () => {
     // TODO chat_id reqired if else
-    console.log(newCode);
     setCode(newCode);
     setIsOpen(false);
   };
