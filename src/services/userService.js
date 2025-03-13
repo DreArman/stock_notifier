@@ -14,3 +14,18 @@ export const getUserData = async () => {
     throw error;
   }
 };
+
+export const setUserData = async (user) => {
+  try {
+    const response = await API.put("/user", { username: user.username, user_telegram_id: user.telegramID });
+    return response.data;
+    
+    // const data = await response.json();
+    // if (data) {
+    //   setUser(User.fromJson(data));
+    // }
+  } catch (error) {
+    console.error('Ошибка загрузки данных пользователя:', error);
+    throw error;
+  }
+};

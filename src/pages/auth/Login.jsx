@@ -45,6 +45,7 @@ const Login = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
+            // required={password ? true : false}
           />
           <label htmlFor="floatingPassword">Password</label>
         </div>

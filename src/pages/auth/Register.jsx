@@ -76,7 +76,7 @@ const Register = () => {
           </label>
         </div>
         <button className="btn btn-primary w-100 py-2" type="submit">
-          Sign in
+          Sign up
         </button>
         <label>Already have an account? <a href={Pages.SIGN_IN}>Sign in</a></label>
       </form>

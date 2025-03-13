@@ -47,7 +47,7 @@ const purchasedStocks = [
       company: "Alphabet Inc.",
       quantity: null,
       current: 650.50,
-      totalCurrent: 3252.50,
+      totalCurrent: null,
       purchased: null,
       totalPurchased: null,
       totalReturn: null,
