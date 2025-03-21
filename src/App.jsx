@@ -12,6 +12,7 @@ import ProtectedRoute from './components/auth/ProtectedRoute';
 import PublicRoute from './components/auth/PublicRoute';
 import Profile from './pages/main/Profile.jsx';
 import NotFound from './pages/NotFound.jsx';
+import './css/App.css';
 
 function App() {
   return (
