@@ -19,7 +19,7 @@ const Login = () => {
         onSubmit={handleSubmit}
         className="w-25 p-4 bg-body-primary rounded-3"
       >
-        <div className="d-flex justify-content-center">
+        <div className="d-flex justify-content-center align-items-center mb-4">
           <Logo width={80} height={80} />
         </div>
         <h1 className="h3 mb-3 fw-normal">Please Sign In</h1>

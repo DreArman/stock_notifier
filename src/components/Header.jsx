@@ -9,7 +9,7 @@ import { NavLink } from 'react-router-dom';
 
 const Header = () => {
   const [notifications] = useState([
-    { id: 1, text: "Новое сообщение от администратора", read: true },
+    { id: 1, text: "Новое сообщение от администратора", read: false },
     { id: 2, text: "Система обновлена до версии 2.1", read: true },
     { id: 3, text: "Ваш отчет готов к скачиванию", read: true },
   ]);
@@ -18,8 +18,10 @@ const Header = () => {
   const { isAuth } = useContext(AuthContext);
 
   return (
-    <header className="d-flex flex-wrap align-items-center justify-content-between py-3 mb-4 p-4 border-bottom">
-      <Logo />
+    <header className="d-flex flex-wrap align-items-center justify-content-between py-4 mb-4 p-5 border-bottom">
+      <div className="d-flex justify-content-center align-items-center me-5">
+        <Logo/>
+      </div>
 
       <NavLinks />
 

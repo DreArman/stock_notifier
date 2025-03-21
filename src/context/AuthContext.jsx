@@ -7,7 +7,7 @@ import { User } from '../models/User';
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [isAuth, setIsAuth] = useState(localStorage.getItem('access_token') === null);
+  const [isAuth, setIsAuth] = useState(localStorage.getItem('access_token') !== null);
   const [user, setUser] = useState(localStorage.getItem('user') !== null ? User.fromJson(JSON.parse(localStorage.getItem('user'))) : new User());
 
   useEffect(() => {
