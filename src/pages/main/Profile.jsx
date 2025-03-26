@@ -9,6 +9,7 @@ const Profile = () => {
   const [username, setUsername] = useState(user.username);
   const [password, setPassword] = useState("");
   const [code, setCode] = useState(user.telegramID);
+  const [dontAskAgain, setDontAskAgain] = useState(localStorage.getItem('dontAskAgain') === 'true');
 
   const handleChange = (e) => {
     setUsername(e.target.value);
@@ -18,12 +19,17 @@ const Profile = () => {
     setPassword(e.target.value);
   };
 
+  const handleDontAskAgainChange = (e) => {
+    setDontAskAgain(e.target.checked);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    localStorage.setItem('dontAskAgain', dontAskAgain);
     setUser(
       new User({email: user.email, username: username, telegramID: code})
     );
-    const data =  await setUserData(user);
+    const data = await setUserData(user);
     console.log(data);
   };
 
@@ -38,7 +44,7 @@ const Profile = () => {
         <h2>Edit Profile</h2>
         <p className="lead">Fill in your details below to update your profile.</p>
       </div>
-      <div className="row">
+      <div className="row d-flex">
         <div className="col-lg-6">
           <h4 className="mb-3">Profile Information</h4>
           <form className="needs-validation mb-2" onSubmit={handleSubmit} noValidate>
@@ -58,6 +64,22 @@ const Profile = () => {
               </div>
 
               <div className="col-12">
+                <label htmlFor="confirm" className="form-label mt-1 mb-2">Ask for confirmation of delete action</label><br/>
+                <div className="form-check mb-2">
+                  <input
+                    type="checkbox"
+                    className="form-check-input"
+                    id="dontAskAgain"
+                    checked={dontAskAgain}
+                    onChange={handleDontAskAgainChange}
+                  />
+                  <label className="form-check-label" htmlFor="dontAskAgain">
+                    Don&apos;t ask me again
+                  </label>
+                </div>
+              </div>
+
+              <div className="col-12">
                 <label htmlFor="telegram" className="form-label">Telegram</label><br/>
                 <TelegramButton telegramID={code} setCode={setCode} />
               </div>
@@ -72,40 +94,40 @@ const Profile = () => {
           <h4 className="mb-3">Change Password</h4>
           <form className="needs-validation" onSubmit={handlePasswordSubmit} noValidate>
             <div className="row g-4 py-3 row-cols-lg-1">
-            <div className="col-12">
-                <label htmlFor="password" className="form-label">Old Password</label>
-                <input
-                  type="password"
-                  className="form-control"
-                  id="old_password"
-                  name="password"
-                  placeholder="Old Password"
-                  onChange={handlePasswordChange}
-                />
-              </div>
               <div className="col-12">
-                <label htmlFor="password" className="form-label">New Password</label>
-                <input
-                  type="password"
-                  className="form-control"
-                  id="new_password"
-                  name="password"
-                  placeholder="New Password"
-                  required={password ? true : false}
-                />
+                  <label htmlFor="password" className="form-label">Old Password</label>
+                  <input
+                    type="password"
+                    className="form-control"
+                    id="old_password"
+                    name="password"
+                    placeholder="Old Password"
+                    onChange={handlePasswordChange}
+                  />
+                </div>
+                <div className="col-12">
+                  <label htmlFor="password" className="form-label">New Password</label>
+                  <input
+                    type="password"
+                    className="form-control"
+                    id="new_password"
+                    name="password"
+                    placeholder="New Password"
+                    required={password ? true : false}
+                  />
+                </div>
+                <div className="col-12">
+                  <label htmlFor="password" className="form-label">Repeat Password</label>
+                  <input
+                    type="password"
+                    className="form-control"
+                    id="repeat_password"
+                    name="password"
+                    placeholder="Repeat Password"
+                    required={password ? true : false}
+                  />
+                </div>
               </div>
-              <div className="col-12">
-                <label htmlFor="password" className="form-label">Repeat Password</label>
-                <input
-                  type="password"
-                  className="form-control"
-                  id="repeat_password"
-                  name="password"
-                  placeholder="Repeat Password"
-                  required={password ? true : false}
-                />
-              </div>
-            </div>
             <hr className="my-4" />
             <button className="w-100 btn btn-primary btn-lg" type="submit">
               Change Password

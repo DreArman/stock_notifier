@@ -35,6 +35,9 @@ const AddStockButton = ({ type }) => {
                                 type="text"
                                 className="form-control mb-md-2"
                                 placeholder="Ticker: AAPL"
+                                onInput={(e) => {
+                                    e.target.value = e.target.value.replace(/[^a-zA-Z]/g, '').toUpperCase();
+                                }}
                             />
                             {type === "purchased" ? (
                             <>
