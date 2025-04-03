@@ -28,7 +28,7 @@ const Register = () => {
   };
 
   return (
-    <main className="vh-100 d-flex justify-content-center align-items-center bg-body-tertiary">
+    <main className="d-flex justify-content-center align-items-center">
       <form
         onSubmit={handleSubmit}
         className="w-25 p-4 bg-body-primary rounded-3"

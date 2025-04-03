@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { purchasedStocks, savedStocks } from "../../constants/StockInfo";
+import axios from "axios"; // Assuming you're using Axios for API calls
 
 const Forecast = () => {
   // Combine and extract unique symbols from both arrays
@@ -8,6 +9,13 @@ const Forecast = () => {
 
   const [selectedSymbol, setSelectedSymbol] = useState('');
   const [showDropdown, setShowDropdown] = useState(false);
+  const [predictions, setPredictions] = useState({
+    oneWeek: { high: '100', low: '50', confidence: '100' },
+    oneMonth: null,
+    oneYear: { high: 1.11, low: 12, confidence: 24.2 },
+  });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
   const dropdownRef = useRef(null);
 
   const handleSymbolChange = (e) => {
@@ -33,6 +41,30 @@ const Forecast = () => {
     };
   }, []);
 
+  const handlePredict = async () => {
+    if (!selectedSymbol) {
+      setError('Please select a stock symbol.');
+      return;
+    }
+
+    setLoading(true);
+    setError('');
+    setPredictions({ oneWeek: null, oneMonth: null, oneYear: null }); // Reset predictions
+
+    try {
+      const response = await axios.post('/api/predict', { symbol: selectedSymbol }); // Replace with your backend endpoint
+      setPredictions({
+        oneWeek: response.data.oneWeek || { high: '-', low: '-', confidence: '-' },
+        oneMonth: response.data.oneMonth || { high: '-', low: '-', confidence: '-' },
+        oneYear: response.data.oneYear || { high: '-', low: '-', confidence: '-' },
+      });
+    } catch (err) {
+      setError(err.response?.data?.message || 'Failed to fetch predictions. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <main className="container">
       <div className="row justify-content-center">
@@ -52,7 +84,9 @@ const Forecast = () => {
                 onChange={handleSymbolChange}
                 onClick={() => setShowDropdown(true)}
               />
-              <button className="btn btn-primary" type="button">Predict</button>
+              <button className="btn btn-primary" type="button" onClick={handlePredict} disabled={loading}>
+                {loading ? 'Loading...' : 'Predict'}
+              </button>
             </div>
 
             {/* Enhanced Dropdown Menu */}
@@ -90,6 +124,9 @@ const Forecast = () => {
             )}
           </div>
 
+          {/* Error Message */}
+          {error && <p className="text-danger">{error}</p>}
+
           {/* Prediction Cards */}
           <div className="row">
             {/* 1 Week Prediction */}
@@ -99,11 +136,11 @@ const Forecast = () => {
                   <h5 className="card-title">1 Week Prediction</h5>
                   <div className="mb-3">
                     <h6>Predicted High</h6>
-                    <h4 className="text-success">$189.45</h4>
+                    <h4 className="text-success">${predictions.oneWeek?.high || '-'}</h4>
                   </div>
                   <div className="mb-3">
                     <h6>Predicted Low</h6>
-                    <h4 className="text-danger">$182.30</h4>
+                    <h4 className="text-danger">${predictions.oneWeek?.low || '-'}</h4>
                   </div>
                   <div>
                     <h6>Confidence</h6>
@@ -111,12 +148,12 @@ const Forecast = () => {
                       <div
                         className="progress-bar bg-info"
                         role="progressbar"
-                        style={{ width: '85%' }}
-                        aria-valuenow="85"
+                        style={{ width: `${predictions.oneWeek?.confidence || 0}%` }}
+                        aria-valuenow={predictions.oneWeek?.confidence || 0}
                         aria-valuemin="0"
                         aria-valuemax="100"
                       >
-                        85%
+                        {predictions.oneWeek?.confidence || '-'}%
                       </div>
                     </div>
                   </div>
@@ -131,11 +168,11 @@ const Forecast = () => {
                   <h5 className="card-title">1 Month Prediction</h5>
                   <div className="mb-3">
                     <h6>Predicted High</h6>
-                    <h4 className="text-success">$195.60</h4>
+                    <h4 className="text-success">${predictions.oneMonth?.high || '-'}</h4>
                   </div>
                   <div className="mb-3">
                     <h6>Predicted Low</h6>
-                    <h4 className="text-danger">$178.90</h4>
+                    <h4 className="text-danger">${predictions.oneMonth?.low || '-'}</h4>
                   </div>
                   <div>
                     <h6>Confidence</h6>
@@ -143,12 +180,12 @@ const Forecast = () => {
                       <div
                         className="progress-bar bg-info"
                         role="progressbar"
-                        style={{ width: '75%' }}
-                        aria-valuenow="75"
+                        style={{ width: `${predictions.oneMonth?.confidence || 0}%` }}
+                        aria-valuenow={predictions.oneMonth?.confidence || 0}
                         aria-valuemin="0"
                         aria-valuemax="100"
                       >
-                        75%
+                        {predictions.oneMonth?.confidence || '-'}%
                       </div>
                     </div>
                   </div>
@@ -163,11 +200,11 @@ const Forecast = () => {
                   <h5 className="card-title">1 Year Prediction</h5>
                   <div className="mb-3">
                     <h6>Predicted High</h6>
-                    <h4 className="text-success">$245.80</h4>
+                    <h4 className="text-success">${predictions.oneYear?.high || '-'}</h4>
                   </div>
                   <div className="mb-3">
                     <h6>Predicted Low</h6>
-                    <h4 className="text-danger">$245.80</h4>
+                    <h4 className="text-danger">${predictions.oneYear?.low || '-'}</h4>
                   </div>
                   <div>
                     <h6>Confidence</h6>
@@ -175,12 +212,12 @@ const Forecast = () => {
                       <div
                         className="progress-bar bg-info"
                         role="progressbar"
-                        style={{ width: '60%' }}
-                        aria-valuenow="60"
+                        style={{ width: `${predictions.oneYear?.confidence || 0}%` }}
+                        aria-valuenow={predictions.oneYear?.confidence || 0}
                         aria-valuemin="0"
                         aria-valuemax="100"
                       >
-                        60%
+                        {predictions.oneYear?.confidence || '-'}%
                       </div>
                     </div>
                   </div>
