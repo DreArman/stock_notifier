@@ -8,6 +8,7 @@ import Alert from './pages/main/Alert';
 import Stocks from './pages/main/Stocks';
 import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
+import Verify from './pages/auth/Verify.jsx';
 import ProtectedRoute from './components/auth/ProtectedRoute';
 import PublicRoute from './components/auth/PublicRoute';
 import Profile from './pages/main/Profile.jsx';
@@ -23,6 +24,7 @@ function App() {
           <Route element={<PublicRoute redirectTo={Pages.ROOT} />}>
             <Route path={Pages.SIGN_IN} element={<Login />} />
             <Route path={Pages.SIGN_UP} element={<Register />} />
+            <Route path={Pages.VERIFY} element={<Verify />} />
           </Route>
 
           {/* Protected Routes (Require Auth) */}

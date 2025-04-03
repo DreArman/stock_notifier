@@ -31,6 +31,16 @@ export const AuthProvider = ({ children }) => {
     localStorage.setItem("user", JSON.stringify(user_data));
   };
 
+  const sendEmail = async (username, email) => {
+    const data = await sendEmail(username, email);
+    console.log(data)
+  };
+
+  const verifyEmail = async (email, code) => {
+    const data = await verifyEmail(email, code);
+    console.log(data)
+  } ;
+
   const register = async (username, email, password) => {
     const data = await registerService(username, email, password);
     console.log(data)
@@ -48,7 +58,7 @@ export const AuthProvider = ({ children }) => {
 
   return (
     // <AuthContext.Provider value={{ isAuth, user, login, register, logout }}>
-    <AuthContext.Provider value={{ isAuth, user, login, register, logout, setUser }}>
+    <AuthContext.Provider value={{ isAuth, user, login, sendEmail, verifyEmail, register, logout, setUser }}>
       {children}
     </AuthContext.Provider>
   );

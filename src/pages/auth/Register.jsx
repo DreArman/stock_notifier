@@ -1,21 +1,32 @@
-import { useState, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { AuthContext } from '../../context/AuthContext';
-import Pages from '../../constants/Pages';
-import Logo from '../../components/elements/Logo';
+import { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../context/AuthContext";
+import Pages from "../../constants/Pages";
+import Logo from "../../components/elements/Logo";
 
 const Register = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { register } = useContext(AuthContext);
+  const [error, setError] = useState("");
+  const { sendEmail } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await register(username, email, password);
-    navigate(Pages.SIGN_IN);
+    try {
+      const message = await sendEmail(username, email); // Send email
+      if (message === "Verification email sent") {
+        console.log(message); // Log success message
+        navigate(Pages.VERIFY, { state: { email, username, password } }); // Redirect to Verify page with state
+      } else {
+        setError("Unexpected response from server."); // Handle unexpected response
+      }
+    } catch (err) {
+      setError(err.message || "Failed to send verification email."); // Display error message
+    }
   };
+
   return (
     <main className="vh-100 d-flex justify-content-center align-items-center bg-body-tertiary">
       <form
@@ -27,6 +38,8 @@ const Register = () => {
         </div>
         <h1 className="h3 mb-3 fw-normal">Please Sign Up</h1>
 
+        {error && <p className="text-danger">{error}</p>}
+
         <div className="form-floating">
           <input
             type="text"
@@ -37,7 +50,7 @@ const Register = () => {
             onChange={(e) => setUsername(e.target.value)}
             required
           />
-          <label htmlFor="floatingInput">Surname Name</label>
+          <label htmlFor="floatingInput">Name Surname</label>
         </div>
         <div className="form-floating">
           <input
@@ -62,23 +75,13 @@ const Register = () => {
             required
           />
           <label htmlFor="floatingPassword">Password</label>
-        </div>
-
-        <div className="form-check text-start my-3">
-          <input
-            className="form-check-input"
-            type="checkbox"
-            value="remember-me"
-            id="flexCheckDefault"
-          />
-          <label className="form-check-label" htmlFor="flexCheckDefault">
-            Remember me
-          </label>
-        </div>
+        </div><br/>
         <button className="btn btn-primary w-100 py-2" type="submit">
           Sign up
         </button>
-        <label>Already have an account? <a href={Pages.SIGN_IN}>Sign in</a></label>
+        <label>
+          Already have an account? <a href={Pages.SIGN_IN}>Sign in</a>
+        </label>
       </form>
     </main>
   );
