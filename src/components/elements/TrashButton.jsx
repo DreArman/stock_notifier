@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 
 const TrashButton = ({ onDelete }) => {
   const [showConfirm, setShowConfirm] = useState(false);
-  const [dontAskAgain, setDontAskAgain] = useState(false);
+  const [dontAskAgain, setDontAskAgain] = useState(localStorage.getItem('dontAskAgain') === 'true');
 
   useEffect(() => {
     const dontAsk = localStorage.getItem('dontAskAgain');
