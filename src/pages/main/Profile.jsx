@@ -1,39 +1,49 @@
 import TelegramButton from "../../components/elements/TelegramButton";
 import { setUserData } from "../../services/userService";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { User } from "../../models/User";
 
 const Profile = () => {
   const { user, setUser } = useContext(AuthContext);
   const [username, setUsername] = useState(user.username);
-  const [password, setPassword] = useState("");
+  const [fullName, setFullName] = useState([]);
   const [code, setCode] = useState(user.telegramID);
-  const [dontAskAgain, setDontAskAgain] = useState(localStorage.getItem('dontAskAgain') === 'true');
+  const [password, setPassword] = useState("");
 
-  const handleChange = (e) => {
-    setUsername(e.target.value);
+  useEffect(() => {
+    setUsername(user.username);
+    setFullName(user.username.split(" "));
+  }, [user]);
+  
+  const handleChangeName = (e) => {
+    setFullName((prev) => [e.target.value, prev[1]]);
   };
-
+  
+  const handleChangeSurname = (e) => {
+    setFullName((prev) => [prev[0], e.target.value]);
+  };
+  
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
   };
-
-  const handleDontAskAgainChange = (e) => {
-    setDontAskAgain(e.target.checked);
-  };
+  
+  // const [dontAskAgain, setDontAskAgain] = useState(localStorage.getItem('dontAskAgain') === 'true');
+  // const handleDontAskAgainChange = (e) => {
+  //   setDontAskAgain(e.target.checked);
+  // };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    localStorage.setItem('dontAskAgain', dontAskAgain);
+    // localStorage.setItem('dontAskAgain', dontAskAgain);
     setUser(
-      new User({email: user.email, username: username, telegramID: code})
+      new User({ email: user.email, username: username, telegramID: code })
     );
     const data = await setUserData(user);
     console.log(data);
   };
 
-  const handlePasswordSubmit = async (e) => { 
+  const handlePasswordSubmit = async (e) => {
     e.preventDefault();
     console.log("Submitted Password:", password);
   };
@@ -47,24 +57,35 @@ const Profile = () => {
       <div className="row d-flex">
         <div className="col-lg-6">
           <h4 className="mb-3">Profile Information</h4>
-          <form className="needs-validation mb-2" onSubmit={handleSubmit} noValidate>
+          <form className="needs-validation mb-2" onSubmit={handleSubmit}>
             <div className="row g-4 py-3 row-cols-lg-1">
               <div className="col-12">
-                <label htmlFor="nameSurname" className="form-label">Name Surname</label>
+                <label htmlFor="name" className="form-label">Name Surname</label>
                 <input
                   type="text"
                   className="form-control"
-                  id="nameSurname"
-                  name="nameSurname"
-                  placeholder="John Doe"
-                  value={username}
-                  onChange={handleChange}
+                  id="name"
+                  name="name"
+                  placeholder="Name"
+                  value={fullName[0]}
+                  onChange={handleChangeName}
                   required
                 />
               </div>
 
               <div className="col-12">
-                <label htmlFor="confirm" className="form-label mt-1 mb-2">Ask for confirmation of delete action</label><br/>
+              <label htmlFor="surname" className="form-label">Name Surname</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="surname"
+                  name="surname"
+                  placeholder="Surname"
+                  value={fullName[1]}
+                  onChange={handleChangeSurname}
+                  required
+                />
+                {/* <label htmlFor="confirm" className="form-label mt-1 mb-2">Ask for confirmation of delete action</label><br />
                 <div className="form-check mb-2">
                   <input
                     type="checkbox"
@@ -76,12 +97,12 @@ const Profile = () => {
                   <label className="form-check-label" htmlFor="dontAskAgain">
                     Don&apos;t ask me again
                   </label>
-                </div>
+                </div> */}
               </div>
 
               <div className="col-12">
-                <label htmlFor="telegram" className="form-label">Telegram</label><br/>
-                <TelegramButton telegramID={code} setCode={setCode} />
+                <label htmlFor="telegram" className="form-label">Telegram</label><br />
+                <TelegramButton telegramID={code} setCode={setCode} required/>
               </div>
             </div>
             <hr className="my-4" />
@@ -90,44 +111,43 @@ const Profile = () => {
             </button>
           </form>
         </div>
-        <div className="col-lg-6" >
+        <div className="col-lg-6">
           <h4 className="mb-3">Change Password</h4>
-          <form className="needs-validation" onSubmit={handlePasswordSubmit} noValidate>
+          <form className="needs-validation" onSubmit={handlePasswordSubmit}>
             <div className="row g-4 py-3 row-cols-lg-1">
               <div className="col-12">
-                  <label htmlFor="password" className="form-label">Old Password</label>
-                  <input
-                    type="password"
-                    className="form-control"
-                    id="old_password"
-                    name="password"
-                    placeholder="Old Password"
-                    onChange={handlePasswordChange}
-                  />
-                </div>
-                <div className="col-12">
-                  <label htmlFor="password" className="form-label">New Password</label>
-                  <input
-                    type="password"
-                    className="form-control"
-                    id="new_password"
-                    name="password"
-                    placeholder="New Password"
-                    required={password ? true : false}
-                  />
-                </div>
-                <div className="col-12">
-                  <label htmlFor="password" className="form-label">Repeat Password</label>
-                  <input
-                    type="password"
-                    className="form-control"
-                    id="repeat_password"
-                    name="password"
-                    placeholder="Repeat Password"
-                    required={password ? true : false}
-                  />
-                </div>
+                <label htmlFor="old_password" className="form-label">Old Password</label>
+                <input
+                  type="password"
+                  className="form-control"
+                  id="old_password"
+                  placeholder="Old Password"
+                  value={password}
+                  onChange={handlePasswordChange}
+                  required
+                />
               </div>
+              <div className="col-12">
+                <label htmlFor="new_password" className="form-label">New Password</label>
+                <input
+                  type="password"
+                  className="form-control"
+                  id="new_password"
+                  placeholder="New Password"
+                  required
+                />
+              </div>
+              <div className="col-12">
+                <label htmlFor="repeat_password" className="form-label">Repeat Password</label>
+                <input
+                  type="password"
+                  className="form-control"
+                  id="repeat_password"
+                  placeholder="Repeat Password"
+                  required
+                />
+              </div>
+            </div>
             <hr className="my-4" />
             <button className="w-100 btn btn-primary btn-lg" type="submit">
               Change Password
