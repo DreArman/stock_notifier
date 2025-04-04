@@ -32,7 +32,7 @@ export const setUserData = async (user) => {
 
 export const changeUserPassword = async (old_password, new_password) => {
   try {
-    const response = await API.put("/reset_password", { old_password, new_password });
+    const response = await API.put("/reset-password", { old_password, new_password });
     return response.data;
     
     // const data = await response.json();
