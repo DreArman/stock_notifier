@@ -80,7 +80,20 @@ const Profile = () => {
       <div className="row d-flex">
         <div className="col-lg-6">
           <h4 className="mb-3">Profile Information</h4>
-          <form className="needs-validation mb-2" onSubmit={handleSubmit}>
+          <form className="needs-validation mb-2" 
+            onSubmit={(e) => {
+              if (fullName[0].trim().split(/\s+/).length > 1) {
+                toast.error("Incorrect name format. Please enter a valid name.");
+                e.preventDefault();
+                return;
+              }
+              if (fullName[1].trim().split(/\s+/).length > 1) {
+                toast.error("Incorrect name format. Please enter a valid name.");
+                e.preventDefault();
+                return;
+              }
+              handleSubmit(e);
+            }}>
             <div className="row g-4 py-3 row-cols-lg-1">
               <div className="col-12">
                 <label htmlFor="name" className="form-label">Name Surname</label>
