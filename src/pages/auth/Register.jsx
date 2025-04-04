@@ -30,7 +30,14 @@ const Register = () => {
   return (
     <main className="d-flex justify-content-center align-items-center">
       <form
-        onSubmit={handleSubmit}
+        onSubmit={(e) => {
+          if (username.trim().split(/\s+/).length > 2) {
+            alert("Incorrect name format. Please enter a valid name.");
+            e.preventDefault();
+            return;
+          }
+          handleSubmit(e);
+        }}
         className="w-25 p-4 bg-body-primary rounded-3"
       >
         <div className="d-flex justify-content-center align-items-center mb-4">
