@@ -3,12 +3,13 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import Pages from "../../constants/Pages";
 import Logo from "../../components/elements/Logo";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Register = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
   const { sendEmail } = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -20,19 +21,20 @@ const Register = () => {
         console.log(message); // Log success message
         navigate(Pages.VERIFY, { state: { email, username, password } }); // Redirect to Verify page with state
       } else {
-        setError("Unexpected response from server."); // Handle unexpected response
+        toast.error("Unexpected response from server."); // Handle unexpected response
       }
     } catch (err) {
-      setError(err.message || "Failed to send verification email."); // Display error message
+      toast.error(err.message || "Failed to send verification email."); // Display error message
     }
   };
 
   return (
     <main className="d-flex justify-content-center align-items-center">
+      <ToastContainer />
       <form
         onSubmit={(e) => {
           if (username.trim().split(/\s+/).length > 2) {
-            alert("Incorrect name format. Please enter a valid name.");
+            toast.error("Incorrect name format. Please enter a valid name.");
             e.preventDefault();
             return;
           }
@@ -44,8 +46,6 @@ const Register = () => {
           <Logo width={80} height={80} />
         </div>
         <h1 className="h3 mb-3 fw-normal">Please Sign Up</h1>
-
-        {error && <p className="text-danger">{error}</p>}
 
         <div className="form-floating">
           <input
