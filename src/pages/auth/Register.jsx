@@ -1,8 +1,8 @@
-import { useState, useContext } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../../context/AuthContext";
 import Pages from "../../constants/Pages";
 import Logo from "../../components/elements/Logo";
+import { sendEmail } from "../../services/authService";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -10,7 +10,7 @@ const Register = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { sendEmail } = useContext(AuthContext);
+  // const { sendEmail } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -19,7 +19,7 @@ const Register = () => {
       const message = await sendEmail(username, email); // Send email
       if (message === "Verification email sent") {
         console.log(message); // Log success message
-        navigate(Pages.VERIFY, { state: { email, username, password } }); // Redirect to Verify page with state
+      navigate(Pages.VERIFY, { state: { email, username, password } }); // Redirect to Verify page with state
       } else {
         toast.error("Unexpected response from server."); // Handle unexpected response
       }

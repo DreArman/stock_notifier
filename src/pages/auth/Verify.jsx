@@ -27,7 +27,7 @@ const Verify = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const verificationCode = code.join(""); // Combine the 6 digits into a single string
+        const verificationCode = parseInt(code.join("")); // Combine the 6 digits into a single integer
         try {
             await verifyEmail(email, verificationCode); // Verify the code
             await register(username, email, password); // Register the user on successful verification
