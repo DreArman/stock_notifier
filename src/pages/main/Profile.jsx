@@ -3,6 +3,8 @@ import { setUserData, changeUserPassword } from "../../services/userService";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { User } from "../../models/User";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Profile = () => {
   const { user, setUser } = useContext(AuthContext);
@@ -26,10 +28,10 @@ const Profile = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     localStorage.setItem('dontAskAgain', dontAskAgain);
-    setUser(
-      new User({email: user.email, username: username, telegramID: code})
-    );
-    const data = await setUserData(user);
+    const data = await setUserData(username, code);
+    if (data && data.message === "User info changed") {
+      toast.success("User info changed successfully!");
+    }
     console.log(data);
   };
 
@@ -39,7 +41,7 @@ const Profile = () => {
     const newPassword = e.target.new_password.value;
     const repeatPassword = e.target.repeat_password.value;
     if (newPassword !== repeatPassword) {
-      alert("Passwords do not match!");
+      toast.error("Passwords do not match!");
       return;
     }
     // Call the function to change the password here
@@ -49,6 +51,7 @@ const Profile = () => {
 
   return (
     <main className="container pt-5 w-50 align-items-center justify-content-center">
+      <ToastContainer />
       <div className="text-center">
         <h2>Edit Profile</h2>
         <p className="lead">Fill in your details below to update your profile.</p>
