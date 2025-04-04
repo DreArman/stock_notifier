@@ -2,12 +2,13 @@ import TelegramButton from "../../components/elements/TelegramButton";
 import { setUserData, changeUserPassword } from "../../services/userService";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
-import { User } from "../../models/User";
+// import { User } from "../../models/User";
+import { getUserData } from '../../services/userService';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Profile = () => {
-  const { user, setUser } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const [username, setUsername] = useState(user.username);
   const [password, setPassword] = useState("");
   const [code, setCode] = useState(user.telegramID);
@@ -30,9 +31,20 @@ const Profile = () => {
     localStorage.setItem('dontAskAgain', dontAskAgain);
     const data = await setUserData(username, code);
     if (data && data.message === "User info changed") {
-      toast.success("User info changed successfully!");
+      
+      const userData = await getUserData();
+      if (userData) {
+        console.log(userData);
+        localStorage.setItem("user", JSON.stringify(userData));
+        // setUser(User.fromJson(userData));
+        // setCode(userData.user_telegram_id);
+        toast.success("User info changed successfully!", {
+          autoClose: 1000, // Decrease the toast display time to 2 seconds
+          onClose: () => setTimeout(() => window.location.reload()),
+        });
+      }
+
     }
-    console.log(data);
   };
 
   const handlePasswordSubmit = async (e) => { 

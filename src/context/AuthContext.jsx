@@ -20,15 +20,15 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const login = async (email, password) => {
-    const login_data = await loginService(email, password); 
-    console.log(login_data)
-    localStorage.setItem("access_token", login_data.access_token);
+    const loginData = await loginService(email, password); 
+    console.log(loginData)
+    localStorage.setItem("access_token", loginData.access_token);
     setIsAuth(true);
     // Optionally, set user data here
-    const user_data = await getUserData();
-    console.log(user_data)
-    setUser(User.fromJson(user_data));
-    localStorage.setItem("user", JSON.stringify(user_data));
+    const userData = await getUserData();
+    console.log(userData)
+    setUser(User.fromJson(userData));
+    localStorage.setItem("user", JSON.stringify(userData));
   };
 
   const sendEmail = async (username, email) => {
