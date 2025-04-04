@@ -42,12 +42,14 @@ const Profile = () => {
         localStorage.setItem("user", JSON.stringify(userData));
         // setUser(User.fromJson(userData));
         // setCode(userData.user_telegram_id);
-        toast.success("User info changed successfully!", {
+        toast.success(data.message, {
           autoClose: 1000, // Decrease the toast display time to 2 seconds
           onClose: () => setTimeout(() => window.location.reload()),
         });
       }
-
+    } 
+    else {
+      toast.error(data.message)
     }
   };
 
