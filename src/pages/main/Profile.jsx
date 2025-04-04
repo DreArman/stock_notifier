@@ -1,6 +1,6 @@
 import TelegramButton from "../../components/elements/TelegramButton";
 import { setUserData, changeUserPassword } from "../../services/userService";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 // import { User } from "../../models/User";
 import { getUserData } from '../../services/userService';
@@ -9,15 +9,9 @@ import "react-toastify/dist/ReactToastify.css";
 
 const Profile = () => {
   const { user } = useContext(AuthContext);
-  const [username, setUsername] = useState(user.username);
-  const [fullName, setFullName] = useState([]);
+  const [fullName, setFullName] = useState(user.username.split(" "));
   const [code, setCode] = useState(user.telegramID);
   const [password, setPassword] = useState("");
-
-  useEffect(() => {
-    setUsername(user.username);
-    setFullName(user.username.split(" "));
-  }, [user]);
   
   const handleChangeName = (e) => {
     setFullName((prev) => [e.target.value, prev[1]]);
@@ -38,6 +32,7 @@ const Profile = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const username = fullName.join(" ");
     const data = await setUserData(username, code);
     if (data && data.message === "User info changed") {
       
@@ -83,7 +78,7 @@ const Profile = () => {
           <form className="needs-validation mb-2" onSubmit={handleSubmit}>
             <div className="row g-4 py-3 row-cols-lg-1">
               <div className="col-12">
-                <label htmlFor="name" className="form-label">Name Surname</label>
+                <label htmlFor="name" className="form-label">Name</label>
                 <input
                   type="text"
                   className="form-control"
@@ -97,7 +92,7 @@ const Profile = () => {
               </div>
 
               <div className="col-12">
-              <label htmlFor="surname" className="form-label">Name Surname</label>
+              <label htmlFor="surname" className="form-label">Surname</label>
                 <input
                   type="text"
                   className="form-control"
