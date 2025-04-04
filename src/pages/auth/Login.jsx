@@ -2,6 +2,7 @@ import { useState, useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import Pages from '../../constants/Pages';
 import Logo from '../../components/elements/Logo';
+import { toast, ToastContainer } from 'react-toastify';
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -10,11 +11,18 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await login(email, password);
+    try {
+      await login(email, password);
+    }
+    catch (e) {
+      console.error("Login error:", e);
+      toast.error(e);
+    }
   };
 
   return (
     <main className="d-flex justify-content-center align-items-center">
+      <ToastContainer/>
       <form
         onSubmit={handleSubmit}
         className="w-25 p-4 bg-body-primary rounded-3"

@@ -5,8 +5,8 @@ export const login = async (email, password) => {
     const response = await API.post("/login", { email, password });
     return response.data;
   } catch (error) {
-    console.error("Ошибка входа:", error);
-    throw error;
+    console.error("Login error:", error);
+    throw "Login error! Please check the entered data.";
   }
 };
 
@@ -15,8 +15,8 @@ export const register = async (username, email, password) => {
     const response = await API.post("/register", { username, email, password });
     return response.data;
   } catch (error) {
-    console.error("Ошибка регистрации:", error);
-    throw error;
+    console.error("Registration error:", error);
+    throw "Registration error! Please check the entered data.";
   }
 };
 
@@ -44,12 +44,12 @@ export const refreshToken = async () => {
   try {
     const response = await API.post("/refresh");
     const newAccessToken = response.data.access_token;
-    console.log("Новый токен:", newAccessToken);
+    console.log("New token:", newAccessToken);
     localStorage.setItem("access_token", newAccessToken);
     return newAccessToken;
   } catch (error) {
-    console.error("Ошибка обновления токена:", error);
-    throw error;
+    console.error("Token refresh error:", error);
+    throw "Token refresh error!";
   }
 };
 
@@ -58,7 +58,7 @@ export const logout = async () => {
     const response = await API.post("/logout");
     return response.data;
   } catch (error) {
-    console.error("Ошибка выхода:", error);
-    throw error;
+    console.error("Logout error:", error);
+    throw "Logout error!";
   }
 };

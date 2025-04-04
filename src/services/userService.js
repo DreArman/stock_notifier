@@ -10,8 +10,8 @@ export const getUserData = async () => {
     //   setUser(User.fromJson(data));
     // }
   } catch (error) {
-    console.error('Ошибка загрузки данных пользователя:', error);
-    throw error;
+    console.error("Error loading user data:", error);
+    throw "Error loading user data!";
   }
 };
 
@@ -26,8 +26,8 @@ export const setUserData = async (username, telegramID) => {
     //   setUser(User.fromJson(data));
     // }
   } catch (error) {
-    console.error('Ошибка сохранения данных пользователя:', error);
-    throw error;
+    console.error("Error saving user data:", error);
+    throw "Error saving user data!";
   }
 };
 
@@ -41,7 +41,7 @@ export const changeUserPassword = async (old_password, new_password) => {
     //   setUser(User.fromJson(data));
     // }
   } catch (error) {
-    console.error('Ошибка изменения пароля пользователя:', error);
-    throw error;
+    console.error("Error changing user password:", error);
+    throw "Error changing user password!";
   }
 };

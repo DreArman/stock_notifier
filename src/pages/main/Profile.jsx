@@ -33,23 +33,28 @@ const Profile = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const username = fullName.join(" ");
-    const data = await setUserData(username, code);
-    if (data && data.message === "User info changed") {
-      
-      const userData = await getUserData();
-      if (userData) {
-        console.log(userData);
-        localStorage.setItem("user", JSON.stringify(userData));
-        // setUser(User.fromJson(userData));
-        // setCode(userData.user_telegram_id);
-        toast.success(data.message, {
-          autoClose: 1000, // Decrease the toast display time to 2 seconds
-          onClose: () => setTimeout(() => window.location.reload()),
-        });
+    try {
+      const data = await setUserData(username, code);
+      if (data && data.message === "User info changed") {
+        
+        const userData = await getUserData();
+        if (userData) {
+          console.log(userData);
+          localStorage.setItem("user", JSON.stringify(userData));
+          // setUser(User.fromJson(userData));
+          // setCode(userData.user_telegram_id);
+          toast.success(data.message, {
+            autoClose: 1000, // Decrease the toast display time to 2 seconds
+            onClose: () => setTimeout(() => window.location.reload()),
+          });
+        }
+      } 
+      else {
+        toast.error(data.message)
       }
-    } 
-    else {
-      toast.error(data.message)
+    }
+    catch (e) {
+      toast.error(e || "An error occurred while saving the data.", { autoClose: 1000 })
     }
   };
 
@@ -63,8 +68,19 @@ const Profile = () => {
       return;
     }
     // Call the function to change the password here
-    const data = await changeUserPassword(oldPassword, newPassword);
-    console.log(data);
+    try {
+      const data = await changeUserPassword(oldPassword, newPassword);
+      console.log(data);
+      if (data && data.message === "User password changed"){
+        toast.success(data.message, {
+          autoClose: 1000, // Decrease the toast display time to 2 seconds
+          onClose: () => setTimeout(() => window.location.reload()),
+        });
+      }
+    } 
+    catch (e){
+      toast.error(e || "An error occurred while changing the password.", { autoClose: 1000 })
+    }
   };
 
   return (
