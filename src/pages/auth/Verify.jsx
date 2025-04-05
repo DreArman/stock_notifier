@@ -3,10 +3,11 @@ import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { verifyEmail, sendEmail, register } from "../../services/authService";
 import Pages from "../../constants/Pages";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Verify = () => {
     const [code, setCode] = useState(new Array(6).fill(""));
-    const [error, setError] = useState("");
     const [resendDisabled, setResendDisabled] = useState(false);
     const location = useLocation();
     const navigate = useNavigate();
@@ -30,31 +31,37 @@ const Verify = () => {
         const verificationCode = parseInt(code.join("")); // Combine the 6 digits into a single integer
         try {
             await verifyEmail(email, verificationCode); // Verify the code
-            await register(username, email, password); // Register the user on successful verification
-            navigate(Pages.SIGN_IN); // Redirect to the login page on success
         } catch (err) {
-            setError(err); // Display error message
+            toast.error(err.message || "Verification failed. Please check the code and try again."); // Specific error for verification
+            return;
         }
+
+        try {
+            await register(username, email, password); // Register the user on successful verification
+        } catch (err) {
+            toast.error(err.message || "Registration failed. Please try again later."); // Specific error for registration
+            return;
+        }
+        navigate(Pages.SIGN_IN); // Redirect to the login page on success
     };
 
     const handleResend = async () => {
         try {
             setResendDisabled(true); // Disable resend button for 1 minute
             await sendEmail(username, email); // Resend the code
-            setTimeout(() => setResendDisabled(false), 60000); // Re-enable after 1 minute
+            setTimeout(() => setResendDisabled(false), 60000); //TODO Re-enable after 1 minute 
         } catch (err) {
-            setError(err); // Display error message
+            toast.error(err); // Display error message
         }
     };
 
     return (
         <main className="container d-flex flex-column justify-content-center align-items-center vh-100 w-25">
+            <ToastContainer />
             <form onSubmit={handleSubmit} className="d-flex flex-column align-items-center">
                 <h2 className="text-center mb-4">
                     Please enter the 6-digit verification code sent to your email.
                 </h2>
-
-                {error && <p className="text-danger">{error}</p>}
 
                 <div className="d-flex gap-2 mb-4">
                     {Array.from({ length: 6 }).map((_, index) => (
