@@ -9,7 +9,7 @@ const Stocks = () => {
   const stocks = activeTab === "purchased" ? purchasedStocks : savedStocks;
 
   return (
-    <div className="container">
+    <main className="container">
       <h1 className="fw-bold">My Stocks</h1>
 
       {/* tabs */}
@@ -43,7 +43,7 @@ const Stocks = () => {
       <div className="text-center mt-4">
         <AddStockButton type={activeTab}/>
       </div>
-    </div>
+    </main>
   );
 };
 

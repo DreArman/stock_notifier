@@ -1,6 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
 import { purchasedStocks, savedStocks } from "../../constants/StockInfo";
 import axios from "axios"; // Assuming you're using Axios for API calls
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 
 const Forecast = () => {
   // Combine and extract unique symbols from both arrays
@@ -15,7 +18,6 @@ const Forecast = () => {
     oneYear: { high: 1.11, low: 12, confidence: 24.2 },
   });
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
   const dropdownRef = useRef(null);
 
   const handleSymbolChange = (e) => {
@@ -43,12 +45,11 @@ const Forecast = () => {
 
   const handlePredict = async () => {
     if (!selectedSymbol) {
-      setError('Please select a stock symbol.');
+      toast.error('Please select a stock symbol.');
       return;
     }
 
     setLoading(true);
-    setError('');
     setPredictions({ oneWeek: null, oneMonth: null, oneYear: null }); // Reset predictions
 
     try {
@@ -59,7 +60,7 @@ const Forecast = () => {
         oneYear: response.data.oneYear || { high: '-', low: '-', confidence: '-' },
       });
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to fetch predictions. Please try again.');
+      toast.error(err.response?.data?.message || 'Failed to fetch predictions. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -67,6 +68,7 @@ const Forecast = () => {
 
   return (
     <main className="container">
+      <ToastContainer/>
       <div className="row justify-content-center">
         <div className="col-md-8 text-center">
           <h1 className="mb-4">AI Stock Predictor</h1>
@@ -123,9 +125,6 @@ const Forecast = () => {
               </ul>
             )}
           </div>
-
-          {/* Error Message */}
-          {error && <p className="text-danger">{error}</p>}
 
           {/* Prediction Cards */}
           <div className="row">
