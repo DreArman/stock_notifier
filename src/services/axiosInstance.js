@@ -24,7 +24,7 @@ axiosInstance.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
-    if (['/login', '/register', '/refresh'].includes(originalRequest.url)) {
+    if (['/login', '/register', '/refresh', '/send-email', '/verify-email'].includes(originalRequest.url)) {
       return Promise.reject(error);
     }
     if (error.response?.status === 401 && !originalRequest._retry) {
