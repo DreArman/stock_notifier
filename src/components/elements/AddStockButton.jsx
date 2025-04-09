@@ -42,14 +42,20 @@ const AddStockButton = ({ type }) => {
                             {type === "purchased" ? (
                             <>
                                 <input
-                                    type="number"
+                                    type="text"
                                     className="form-control mb-md-2"
                                     placeholder="Quantity: number"
+                                    onInput={(e) => {
+                                        e.target.value = e.target.value.replace(/[^0-9]/g, '').toUpperCase();
+                                    }}
                                 />
                                 <input
-                                    type="number"
+                                    type="text"
                                     className="form-control mb-md-2"
                                     placeholder="Price: number"
+                                    onInput={(e) => {
+                                        e.target.value = e.target.value.replace(/[^0-9]/g, '').toUpperCase();
+                                    }}
                                 />
                             </>) : (<></>)}
                         </div>

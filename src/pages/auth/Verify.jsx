@@ -1,5 +1,4 @@
-import { useState } from "react";
-// import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { verifyEmail, sendEmail, register } from "../../services/authService";
 import Pages from "../../constants/Pages";
@@ -9,15 +8,17 @@ import "react-toastify/dist/ReactToastify.css";
 const Verify = () => {
     const [code, setCode] = useState(new Array(6).fill(""));
     const [resendDisabled, setResendDisabled] = useState(false);
+    const [submitDisabled, setSubmitDisabled] = useState(false); // State to disable buttons
     const location = useLocation();
     const navigate = useNavigate();
     const { email, username, password } = location.state || {};
 
-    // useEffect(() => {
-    //     if (!email || !username || !password) {
-    //       navigate(Pages.SIGN_UP); // Redirect to the Register page
-    //     }
-    // }, [email, username, password, navigate]);
+    // Redirect to Register if required data is missing
+    useEffect(() => {
+        if (!email || !username || !password) {
+            navigate(Pages.SIGN_UP); // Redirect to the Register page
+        }
+    }, [email, username, password, navigate]);
 
     const handleInputChange = (value, index) => {
         if (!/^\d*$/.test(value)) return; // Allow only numbers
@@ -29,27 +30,33 @@ const Verify = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const verificationCode = parseInt(code.join("")); // Combine the 6 digits into a single integer
+        setSubmitDisabled(true); // Disable buttons after submission starts
         try {
             await verifyEmail(email, verificationCode); // Verify the code
         } catch (err) {
             toast.error(err.message || "Verification failed. Please check the code and try again."); // Specific error for verification
+            setSubmitDisabled(false); // Re-enable buttons if verification fails
             return;
         }
 
         try {
-            await register(username, email, password); // Register the user on successful verification
+            const data = await register(username, email, password); // Register the user on successful verification
+            toast.success(data.message, {
+                autoClose: 1000, // Decrease the toast display time to 2 seconds
+                onClose: () => setTimeout(() => navigate(Pages.SIGN_IN)), // Redirect to the login page after 2 seconds
+            });
         } catch (err) {
             toast.error(err.message || "Registration failed. Please try again later."); // Specific error for registration
+            setSubmitDisabled(false); // Re-enable buttons if registration fails
             return;
         }
-        navigate(Pages.SIGN_IN); // Redirect to the login page on success
     };
 
     const handleResend = async () => {
         try {
             setResendDisabled(true); // Disable resend button for 1 minute
             await sendEmail(username, email); // Resend the code
-            setTimeout(() => setResendDisabled(false), 60000); //TODO Re-enable after 1 minute 
+            setTimeout(() => setResendDisabled(false), 60000); // Re-enable after 1 minute
         } catch (err) {
             toast.error(err); // Display error message
         }
@@ -84,18 +91,23 @@ const Verify = () => {
                                     e.target.previousElementSibling.focus(); // Move to the previous input
                                 }
                             }}
+                            disabled={submitDisabled} // Disable input fields if submission is successful
                         />
                     ))}
                 </div>
 
-                <button type="submit" className="btn btn-primary w-100 mb-3">
+                <button
+                    type="submit"
+                    className="btn btn-primary w-100 mb-3"
+                    disabled={submitDisabled} // Disable submit button if submission is successful
+                >
                     Submit
                 </button>
                 <button
                     type="button"
                     className="btn btn-secondary w-100"
                     onClick={handleResend}
-                    disabled={resendDisabled}
+                    disabled={resendDisabled || submitDisabled} // Disable resend button if submission is successful or resend is in progress
                 >
                     Resend Code
                 </button>

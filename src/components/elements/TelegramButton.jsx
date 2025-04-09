@@ -38,6 +38,9 @@ const TelegramButton = ({ telegramID, setCode }) => {
               <input type="text" className="form-control"
                 placeholder="Enter Telegram ID"
                 value={newCode}
+                onInput={(e) => {
+                  e.target.value = e.target.value.replace(/[^0-9]/g, '').toUpperCase();
+                }}
                 onChange={(e) => setNewCode(e.target.value)}
               />
             </div>
