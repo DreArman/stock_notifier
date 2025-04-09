@@ -15,10 +15,16 @@ export const getUserData = async () => {
   }
 };
 
-export const setUserData = async (username, telegramID) => {
+export const setUserData = async (username, user_telegram_id) => {
   try {
-    console.log(username, telegramID);
-    const response = await API.put("/user", { username: username, telegram_id: telegramID });
+    console.log(username, user_telegram_id);
+
+    const payload = { username };
+    if (user_telegram_id) {
+      payload.user_telegram_id = user_telegram_id;
+    }
+
+    const response = await API.put("/user", payload);
     return response.data;
     
     // const data = await response.json();
