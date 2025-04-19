@@ -9,6 +9,7 @@ const Verify = () => {
     const [code, setCode] = useState(new Array(6).fill(""));
     const [resendDisabled, setResendDisabled] = useState(false);
     const [submitDisabled, setSubmitDisabled] = useState(false); // State to disable buttons
+    const [timer, setTimer] = useState(0); // Timer state for the resend button
     const location = useLocation();
     const navigate = useNavigate();
     const { email, username, password } = location.state || {};
@@ -19,6 +20,19 @@ const Verify = () => {
             navigate(Pages.SIGN_UP); // Redirect to the Register page
         }
     }, [email, username, password, navigate]);
+
+    // Timer effect for the resend button
+    useEffect(() => {
+        let interval;
+        if (timer > 0) {
+            interval = setInterval(() => {
+                setTimer((prev) => prev - 1);
+            }, 1000);
+        } else {
+            setResendDisabled(false); // Enable the resend button when the timer reaches 0
+        }
+        return () => clearInterval(interval); // Cleanup the interval on unmount
+    }, [timer]);
 
     const handleInputChange = (value, index) => {
         if (!/^\d*$/.test(value)) return; // Allow only numbers
@@ -54,9 +68,12 @@ const Verify = () => {
 
     const handleResend = async () => {
         try {
-            setResendDisabled(true); // Disable resend button for 1 minute
-            await sendEmail(username, email); // Resend the code
-            setTimeout(() => setResendDisabled(false), 60000); // Re-enable after 1 minute
+            setResendDisabled(true); // Disable resend button
+            setTimer(5); // Set the timer to 5 seconds
+            const data = await sendEmail(username, email); // Resend the code
+            toast.success(data.message || "Verification email sent successfully."); // Display success message
+            setTimer(30); // Reset the timer to 30 seconds
+            setCode(new Array(6).fill("")); // Reset the code input fields
         } catch (err) {
             toast.error(err); // Display error message
         }
@@ -109,7 +126,7 @@ const Verify = () => {
                     onClick={handleResend}
                     disabled={resendDisabled || submitDisabled} // Disable resend button if submission is successful or resend is in progress
                 >
-                    Resend Code
+                    {resendDisabled ? `Resend Code (${timer}s)` : "Resend Code"}
                 </button>
             </form>
         </main>
