@@ -20,17 +20,7 @@ const purchasedStocks = [
       totalReturn: { value: "+$152.50", percent: "4.9%" },
     },
     {
-      symbol: "AAPL",
-      company: "Apple Inc.",
-      quantity: 10,
-      current: 182.34,
-      totalCurrent: 1823.40,
-      purchased: 165.20,
-      totalPurchased: 1652.00,
-      totalReturn: { value: "+$171.40", percent: "10.4%" },
-    },
-    {
-      symbol: "AAPL",
+      symbol: "GOOGL",
       company: "Apple Inc.",
       quantity: 10,
       current: 182.34,

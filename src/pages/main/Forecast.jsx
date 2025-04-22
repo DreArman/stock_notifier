@@ -13,9 +13,9 @@ const Forecast = () => {
   const [selectedSymbol, setSelectedSymbol] = useState('');
   const [showDropdown, setShowDropdown] = useState(false);
   const [predictions, setPredictions] = useState({
-    oneWeek: { high: '100', low: '50', confidence: '100' },
+    oneWeek: { cost: '100', confidence: '100' },
     oneMonth: null,
-    oneYear: { high: 1.11, low: 12, confidence: 24.2 },
+    oneYear: { cost: 1.11, confidence: 24.2 },
   });
   const [loading, setLoading] = useState(false);
   const dropdownRef = useRef(null);
@@ -55,9 +55,9 @@ const Forecast = () => {
     try {
       const response = await axios.post('/api/predict', { symbol: selectedSymbol }); // Replace with your backend endpoint
       setPredictions({
-        oneWeek: response.data.oneWeek || { high: '-', low: '-', confidence: '-' },
-        oneMonth: response.data.oneMonth || { high: '-', low: '-', confidence: '-' },
-        oneYear: response.data.oneYear || { high: '-', low: '-', confidence: '-' },
+        oneWeek: response.data.oneWeek || { cost: '-', confidence: '-' },
+        oneMonth: response.data.oneMonth || { cost: '-', confidence: '-' },
+        oneYear: response.data.oneYear || { cost: '-', confidence: '-' },
       });
     } catch (err) {
       toast.error(err.response?.data?.message || 'Failed to fetch predictions. Please try again.');
@@ -134,12 +134,8 @@ const Forecast = () => {
                 <div className="card-body">
                   <h5 className="card-title">1 Week Prediction</h5>
                   <div className="mb-3">
-                    <h6>Predicted High</h6>
-                    <h4 className="text-success">${predictions.oneWeek?.high || '-'}</h4>
-                  </div>
-                  <div className="mb-3">
-                    <h6>Predicted Low</h6>
-                    <h4 className="text-danger">${predictions.oneWeek?.low || '-'}</h4>
+                    <h6>Predicted Cost</h6>
+                    <h4 className="text-success">${predictions.oneWeek?.cost || '-'}</h4>
                   </div>
                   <div>
                     <h6>Confidence</h6>
@@ -166,12 +162,8 @@ const Forecast = () => {
                 <div className="card-body">
                   <h5 className="card-title">1 Month Prediction</h5>
                   <div className="mb-3">
-                    <h6>Predicted High</h6>
-                    <h4 className="text-success">${predictions.oneMonth?.high || '-'}</h4>
-                  </div>
-                  <div className="mb-3">
-                    <h6>Predicted Low</h6>
-                    <h4 className="text-danger">${predictions.oneMonth?.low || '-'}</h4>
+                    <h6>Predicted Cost</h6>
+                    <h4 className="text-success">${predictions.oneMonth?.cost || '-'}</h4>
                   </div>
                   <div>
                     <h6>Confidence</h6>
@@ -198,12 +190,8 @@ const Forecast = () => {
                 <div className="card-body">
                   <h5 className="card-title">1 Year Prediction</h5>
                   <div className="mb-3">
-                    <h6>Predicted High</h6>
-                    <h4 className="text-success">${predictions.oneYear?.high || '-'}</h4>
-                  </div>
-                  <div className="mb-3">
-                    <h6>Predicted Low</h6>
-                    <h4 className="text-danger">${predictions.oneYear?.low || '-'}</h4>
+                    <h6>Predicted Cost</h6>
+                    <h4 className="text-success">${predictions.oneYear?.cost || '-'}</h4>
                   </div>
                   <div>
                     <h6>Confidence</h6>

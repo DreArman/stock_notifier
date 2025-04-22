@@ -1,10 +1,35 @@
 import { useState } from "react";
 import PropTypes from 'prop-types';
+import { addStock } from "../../services/stockService";
+// import { ToastContainer, toast } from "react-toastify";
+// import "react-toastify/dist/ReactToastify.css";
 
 const AddStockButton = ({ type }) => {
     const [isOpen, setIsOpen] = useState(false);
 
-    const handleLinkTelegram = () => {
+    const handleStockSubmit = (e) => {
+        e.preventDefault();
+        const stockName = e.target.stockName.value;
+        const ticker = e.target.ticker.value;
+        const quantity = type === "purchased" ? e.target.quantity.value : null;
+        const price = type === "purchased" ? e.target.price.value : null;
+        try {
+            const stock = {
+                symbol: ticker,
+                company: stockName,
+                quantity: quantity ? parseInt(quantity) : null,
+                current: null,
+                totalCurrent: null,
+                purchased: price ? parseFloat(price) : null,
+                totalPurchased: price ? parseFloat(price) * (quantity ? parseInt(quantity) : 1) : null,
+                totalReturn: null,
+            };
+            // Add the stock to the list (this part depends on your state management)
+            console.log(stock);
+        }
+        catch (error) {
+            console.error("Error adding stock:", error);
+        }
         setIsOpen(false);
     };
 
@@ -24,24 +49,26 @@ const AddStockButton = ({ type }) => {
                                 aria-label="Close"
                             ></button>
                         </div>
-                        <div className="modal-body py-0">
+                        <form className="modal-body py-0">
                             <p>Write down your stock info</p>
-                            <input
+                            <input id="stockName" name="stockName"
                                 type="text"
                                 className="form-control mb-md-2"
                                 placeholder="Stock Name: Apple Inc."
+                                required
                             />
-                            <input
+                            <input id="ticker" name="ticker"
                                 type="text"
                                 className="form-control mb-md-2"
                                 placeholder="Ticker: AAPL"
+                                required
                                 onInput={(e) => {
                                     e.target.value = e.target.value.replace(/[^a-zA-Z]/g, '').toUpperCase();
                                 }}
                             />
                             {type === "purchased" ? (
                             <>
-                                <input
+                                <input id="quantity" name="quantity"
                                     type="text"
                                     className="form-control mb-md-2"
                                     placeholder="Quantity: number"
@@ -49,7 +76,7 @@ const AddStockButton = ({ type }) => {
                                         e.target.value = e.target.value.replace(/[^0-9]/g, '').toUpperCase();
                                     }}
                                 />
-                                <input
+                                <input id="price" name="price"
                                     type="text"
                                     className="form-control mb-md-2"
                                     placeholder="Price: number"
@@ -58,9 +85,9 @@ const AddStockButton = ({ type }) => {
                                     }}
                                 />
                             </>) : (<></>)}
-                        </div>
+                        </form>
                         <div className="modal-footer flex-column align-items-stretch w-100 gap-2 pb-3 border-top-0">
-                            <button type="button" className="btn btn-lg btn-primary" onClick={handleLinkTelegram}>
+                            <button type="submit" className="btn btn-lg btn-primary" onClick={handleStockSubmit}>
                                 Add Stock
                             </button>
                         </div>
