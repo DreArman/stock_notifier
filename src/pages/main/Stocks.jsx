@@ -1,7 +1,6 @@
 import { useState } from "react";
 import StockCard from "../../components/elements/StockCard";
 import AddStockButton from "../../components/elements/AddStockButton";
-// import { getStockData } from "../../services/stockService";
 import { purchasedStocks as initialPurchasedStocks, savedStocks as initialSavedStocks } from "../../constants/StockInfo";
 
 const Stocks = () => {
@@ -16,6 +15,14 @@ const Stocks = () => {
       setPurchasedStocks(purchasedStocks.filter((stock) => stock.symbol !== symbol));
     } else {
       setSavedStocks(savedStocks.filter((stock) => stock.symbol !== symbol));
+    }
+  };
+
+  const addStock = (newStock) => {
+    if (activeTab === "purchased") {
+      setPurchasedStocks([...purchasedStocks, newStock]);
+    } else {
+      setSavedStocks([...savedStocks, newStock]);
     }
   };
 
@@ -52,7 +59,7 @@ const Stocks = () => {
 
       {/* Add New Stock Button */}
       <div className="text-center mt-4">
-        <AddStockButton type={activeTab} />
+        <AddStockButton type={activeTab} onAddStock={addStock} />
       </div>
     </main>
   );

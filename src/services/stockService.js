@@ -10,9 +10,9 @@ export const getStockData = async () => {
   }
 };
 
-export const addStock = async (stock) => {
+export const addStock = async (stock_ticker, type) => {
   try {
-    const response = await API.post("/user-stock", stock);
+    const response = await API.post("/user-stock", stock_ticker, type);
     return response.data;
   } catch (error) {
     console.error("Error adding stock:", error);
