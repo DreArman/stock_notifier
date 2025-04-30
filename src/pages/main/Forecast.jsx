@@ -13,9 +13,9 @@ const Forecast = () => {
   const [selectedSymbol, setSelectedSymbol] = useState('');
   const [showDropdown, setShowDropdown] = useState(false);
   const [predictions, setPredictions] = useState({
-    oneWeek: { cost: '100', confidence: '100' },
-    oneMonth: null,
-    oneYear: { cost: 1.11, confidence: 24.2 },
+    oneWeek: { cost: '121.12', confidence: '89' },
+    oneMonth: { cost: 134, confidence: '69' },
+    oneYear: { cost: 147, confidence: '49' },
   });
   const [loading, setLoading] = useState(false);
   const dropdownRef = useRef(null);

@@ -1,16 +1,15 @@
 const Pages = {
-    ROOT: "/",                        // Главная страница
-    SIGN_IN: "/auth/sign-in",         // Страница входа
-    SIGN_UP: "/auth/sign-up",         // Страница регистрации
-    VERIFY: "/auth/verify",           // Страница подтверждения аккаунта
-    PASSWORD_FORGOT: "/auth/forgot-password", // Страница восстановления пароля
-    PROFILE: "/profile",              // Профиль пользователя
-    NOTIFICATIONS: "/notifications",  // Общие уведомления на сайте (например, системные сообщения)
-    DASHBOARD: "/dashboard",          // Главная панель управления
-    STOCKS: "/stocks",                // Страница со списком акций
-    FORECAST: "/forecast",            // Раздел с прогнозами по акциям
-    STOCK_ALERTS: "/alerts",          // Настройка уведомлений о движении цен акций
+    ROOT: "/",                        // Main page
+    SIGN_IN: "/auth/sign-in",         // Login page
+    SIGN_UP: "/auth/sign-up",         // Registration page
+    VERIFY: "/auth/verify",           // Account verification page
+    PASSWORD_FORGOT: "/auth/forgot-password", // Password recovery page
+    PROFILE: "/profile",              // User profile page
+    NOTIFICATIONS: "/notifications",  // General notifications page (e.g., system messages)
+    DASHBOARD: "/dashboard",          // Main dashboard
+    STOCKS: "/stocks",                // Stocks list page
+    FORECAST: "/forecast",            // Stock forecasts section
+    STOCK_ALERTS: "/alerts",          // Price movement alerts settings
 };
   
-  export default Pages;
-  
+export default Pages;

@@ -1,18 +1,16 @@
 import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { verifyEmail, sendEmail, register } from "../../services/authService";
+import { verifyEmail, register } from "../../services/authService";
 import Pages from "../../constants/Pages";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Verify = () => {
     const [code, setCode] = useState(new Array(6).fill(""));
-    const [resendDisabled, setResendDisabled] = useState(false);
     const [submitDisabled, setSubmitDisabled] = useState(false); // State to disable buttons
-    const [timer, setTimer] = useState(0); // Timer state for the resend button
     const location = useLocation();
     const navigate = useNavigate();
-    const { email, username, password } = location.state || {};
+    const { email, username, password } = location.state || {email: "a", username: "a", password: "a"}; // Extract email, username, and password from location state   
 
     // Redirect to Register if required data is missing
     useEffect(() => {
@@ -20,19 +18,6 @@ const Verify = () => {
             navigate(Pages.SIGN_UP); // Redirect to the Register page
         }
     }, [email, username, password, navigate]);
-
-    // Timer effect for the resend button
-    useEffect(() => {
-        let interval;
-        if (timer > 0) {
-            interval = setInterval(() => {
-                setTimer((prev) => prev - 1);
-            }, 1000);
-        } else {
-            setResendDisabled(false); // Enable the resend button when the timer reaches 0
-        }
-        return () => clearInterval(interval); // Cleanup the interval on unmount
-    }, [timer]);
 
     const handleInputChange = (value, index) => {
         if (!/^\d*$/.test(value)) return; // Allow only numbers
@@ -63,19 +48,6 @@ const Verify = () => {
             toast.error(err.message || "Registration failed. Please try again later."); // Specific error for registration
             setSubmitDisabled(false); // Re-enable buttons if registration fails
             return;
-        }
-    };
-
-    const handleResend = async () => {
-        try {
-            setResendDisabled(true); // Disable resend button
-            setTimer(5); // Set the timer to 5 seconds
-            const data = await sendEmail(username, email); // Resend the code
-            toast.success(data.message || "Verification email sent successfully."); // Display success message
-            setTimer(30); // Reset the timer to 30 seconds
-            setCode(new Array(6).fill("")); // Reset the code input fields
-        } catch (err) {
-            toast.error(err); // Display error message
         }
     };
 
@@ -119,14 +91,6 @@ const Verify = () => {
                     disabled={submitDisabled} // Disable submit button if submission is successful
                 >
                     Submit
-                </button>
-                <button
-                    type="button"
-                    className="btn btn-secondary w-100"
-                    onClick={handleResend}
-                    disabled={resendDisabled || submitDisabled} // Disable resend button if submission is successful or resend is in progress
-                >
-                    {resendDisabled ? `Resend Code (${timer}s)` : "Resend Code"}
                 </button>
             </form>
         </main>
