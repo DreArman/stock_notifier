@@ -10,7 +10,7 @@ const Verify = () => {
     const [submitDisabled, setSubmitDisabled] = useState(false); // State to disable buttons
     const location = useLocation();
     const navigate = useNavigate();
-    const { email, username, password } = location.state || {email: "a", username: "a", password: "a"}; // Extract email, username, and password from location state   
+    const { email, username, password } = location.state || {}; // Extract email, username, and password from location state   
 
     // Redirect to Register if required data is missing
     useEffect(() => {
@@ -79,6 +79,15 @@ const Verify = () => {
                                 if (e.key === "Backspace" && !e.target.value && e.target.previousElementSibling) {
                                     e.target.previousElementSibling.focus(); // Move to the previous input
                                 }
+                            }}
+                            onPaste={(e) => {
+                                e.preventDefault(); // Prevent default paste behavior
+                                const pastedData = e.clipboardData.getData("text").replace(/\D/g, ""); // Remove non-numeric characters
+                                const newCode = [...code];
+                                pastedData.split("").forEach((char, i) => {
+                                    if (i < 6) newCode[i] = char; // Distribute characters across inputs
+                                });
+                                setCode(newCode); // Update the code state
                             }}
                             disabled={submitDisabled} // Disable input fields if submission is successful
                         />

@@ -20,14 +20,14 @@ const StockCard = ({ stock, onRemove }) => {
             Quantity: <strong>{stock.quantity}</strong>
           </p>
         )}
-        {stock.current !== null && (
+        {stock.today !== null && (
           <p>
-            Today&apos;s Price: <strong>${stock.current}</strong>
+            Today&apos;s Price: <strong>${stock.today}</strong>
           </p>
         )}
-        {stock.totalCurrent !== null && (
+        {stock.totalToday !== null && (
           <p>
-            Total Current: <strong>${stock.totalCurrent.toFixed(2)}</strong>
+            Today&apos;s Total: <strong>${stock.totalToday.toFixed(2)}</strong>
           </p>
         )}
         {stock.purchased !== null && (
@@ -57,8 +57,8 @@ StockCard.propTypes = {
     symbol: PropTypes.string.isRequired,
     company: PropTypes.string.isRequired,
     quantity: PropTypes.number,
-    current: PropTypes.number,
-    totalCurrent: PropTypes.number,
+    today: PropTypes.number,
+    totalToday: PropTypes.number,
     purchased: PropTypes.number,
     totalPurchased: PropTypes.number,
     totalReturn: PropTypes.shape({

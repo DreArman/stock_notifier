@@ -9,12 +9,11 @@ const AddStockButton = ({ type, onAddStock }) => {
 
   const handleStockSubmit = async (e) => {
     e.preventDefault();
-    const stockName = e.target.stockName.value.trim();
     const stockTicker = e.target.ticker.value.trim();
     const quantity = type === "purchased" ? parseInt(e.target.quantity.value, 10) : null;
     const price = type === "purchased" ? parseFloat(e.target.price.value) : null;
 
-    if (!stockName || !stockTicker) {
+    if (!stockTicker) {
       toast.error("Stock Name and Ticker are required.", {
         position: toast.POSITION.TOP_RIGHT,
         autoClose: 1000,
@@ -30,11 +29,10 @@ const AddStockButton = ({ type, onAddStock }) => {
       // Add stock to the local state
       const newStock = {
         symbol: stockTicker.toUpperCase(),
-        company: stockName,
         quantity: quantity || null,
         purchased: price || null,
-        current: price || null, // Placeholder for current price
-        totalCurrent: quantity && price ? quantity * price : null,
+        today: price || null, // Placeholder for current price
+        totalToday: quantity && price ? quantity * price : null,
         totalPurchased: quantity && price ? quantity * price : null,
         totalReturn: null, // Placeholder for total return
       };
@@ -75,14 +73,6 @@ const AddStockButton = ({ type, onAddStock }) => {
             </div>
             <form className="modal-body py-0" onSubmit={handleStockSubmit}>
               <p>Write down your stock info</p>
-              <input
-                id="stockName"
-                name="stockName"
-                type="text"
-                className="form-control mb-md-2"
-                placeholder="Stock Name: Apple Inc."
-                required
-              />
               <input
                 id="ticker"
                 name="ticker"
