@@ -1,7 +1,7 @@
 import API from "./axiosInstance";
 
 
-export const getStocTickers = async () => {
+export const getStockTickers = async () => {
   try {
     const response = await API.get("/tickers");
     return response.data;

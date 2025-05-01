@@ -1,33 +1,73 @@
 import { useState, useEffect, useRef } from 'react';
-import { purchasedStocks, savedStocks } from "../../constants/StockInfo";
-import axios from "axios"; // Assuming you're using Axios for API calls
+import { getStockTickers } from '../../services/stockService';
+import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-
 const Forecast = () => {
-  // Combine and extract unique symbols from both arrays
-  const allStocks = [...purchasedStocks, ...savedStocks];
-  const uniqueSymbols = [...new Set(allStocks.map(stock => stock.symbol))];
-
+  const [tickers, setTickers] = useState([]); // State to store tickers
   const [selectedSymbol, setSelectedSymbol] = useState('');
   const [showDropdown, setShowDropdown] = useState(false);
+  const [highlightedIndex, setHighlightedIndex] = useState(-1); // Track highlighted item
   const [predictions, setPredictions] = useState({
-    oneWeek: { cost: '121.12', confidence: '89' },
-    oneMonth: { cost: 134, confidence: '69' },
-    oneYear: { cost: 147, confidence: '49' },
+    oneWeek: { cost: '-', confidence: '-' },
+    oneMonth: { cost: '-', confidence: '-' },
+    oneYear: { cost: '-', confidence: '-' },
   });
   const [loading, setLoading] = useState(false);
   const dropdownRef = useRef(null);
 
+  // Fetch tickers on component mount
+  useEffect(() => {
+    const fetchTickers = async () => {
+      try {
+        const data = await getStockTickers();
+        setTickers(data.tickers); // Set tickers in state
+      } catch {
+        toast.error("Failed to fetch stock tickers.");
+      }
+    };
+
+    fetchTickers();
+  }, []);
+
   const handleSymbolChange = (e) => {
     setSelectedSymbol(e.target.value);
     setShowDropdown(true); // Show dropdown when typing
+    setHighlightedIndex(-1); // Reset highlighted index
   };
 
   const selectSymbol = (symbol) => {
     setSelectedSymbol(symbol);
-    setShowDropdown(false);
+    setShowDropdown(false); // Hide dropdown after selection
+    setHighlightedIndex(-1); // Reset highlighted index
+  };
+
+  const handleKeyDown = (e) => {
+    if (!showDropdown) return;
+
+    const filteredTickers = tickers.filter((ticker) =>
+      ticker.toLowerCase().includes(selectedSymbol.toLowerCase())
+    );
+
+    if (e.key === "ArrowDown") {
+      // Move down in the list
+      setHighlightedIndex((prevIndex) =>
+        prevIndex < filteredTickers.length - 1 ? prevIndex + 1 : 0
+      );
+    } else if (e.key === "ArrowUp") {
+      // Move up in the list
+      setHighlightedIndex((prevIndex) =>
+        prevIndex > 0 ? prevIndex - 1 : filteredTickers.length - 1
+      );
+    } else if (e.key === "Enter" && highlightedIndex >= 0) {
+      // Select the highlighted item
+      selectSymbol(filteredTickers[highlightedIndex]);
+      e.preventDefault(); // Prevent form submission
+    } else if (e.key === "Escape") {
+      // Close the dropdown
+      setShowDropdown(false);
+    }
   };
 
   const handleClickOutside = (event) => {
@@ -46,6 +86,12 @@ const Forecast = () => {
   const handlePredict = async () => {
     if (!selectedSymbol) {
       toast.error('Please select a stock symbol.');
+      return;
+    }
+
+    // Validate the selected symbol against the tickers list
+    if (!tickers.includes(selectedSymbol.toUpperCase())) {
+      toast.error('Invalid stock symbol. Please select from the list.');
       return;
     }
 
@@ -68,7 +114,7 @@ const Forecast = () => {
 
   return (
     <main className="container">
-      <ToastContainer/>
+      <ToastContainer />
       <div className="row justify-content-center">
         <div className="col-md-8 text-center">
           <h1 className="mb-4">AI Stock Predictor</h1>
@@ -84,6 +130,7 @@ const Forecast = () => {
                 aria-label="Stock ticker"
                 value={selectedSymbol}
                 onChange={handleSymbolChange}
+                onKeyDown={handleKeyDown} // Handle arrow keys and Enter
                 onClick={() => setShowDropdown(true)}
               />
               <button className="btn btn-primary" type="button" onClick={handlePredict} disabled={loading}>
@@ -102,22 +149,23 @@ const Forecast = () => {
                   zIndex: 1000,
                 }}
               >
-                {uniqueSymbols
+                {tickers
                   .filter(symbol =>
                     symbol.toLowerCase().includes(selectedSymbol.toLowerCase())
                   )
-                  .map(symbol => (
-                    <li key={symbol}>
-                      <button
-                        className="dropdown-item"
-                        type="button"
-                        onClick={() => selectSymbol(symbol)}
-                      >
-                        {symbol}
-                      </button>
+                  .map((symbol, index) => (
+                    <li
+                      key={symbol}
+                      className={`dropdown-item ${
+                        index === highlightedIndex ? "active" : ""
+                      }`}
+                      onMouseEnter={() => setHighlightedIndex(index)} // Highlight on hover
+                      onClick={() => selectSymbol(symbol)}
+                    >
+                      {symbol}
                     </li>
                   ))}
-                {uniqueSymbols.filter(symbol =>
+                {tickers.filter(symbol =>
                   symbol.toLowerCase().includes(selectedSymbol.toLowerCase())
                 ).length === 0 && (
                   <li className="dropdown-item text-muted">No results found</li>

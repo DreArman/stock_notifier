@@ -1,7 +1,7 @@
 import { useState } from "react";
 import StockCard from "../../components/elements/StockCard";
 import AddStockButton from "../../components/elements/AddStockButton";
-// import { getStockData } from "../../services/stockService";
+import { getStockData, getUserStocks, getStockTickers } from "../../services/stockService";
 
 import { purchasedStocks as initialPurchasedStocks, savedStocks as initialSavedStocks } from "../../constants/StockInfo";
 
@@ -9,9 +9,6 @@ const Stocks = () => {
   const [activeTab, setActiveTab] = useState("purchased");
   const [purchasedStocks, setPurchasedStocks] = useState(initialPurchasedStocks);
   const [savedStocks, setSavedStocks] = useState(initialSavedStocks);
-
-  // const my_stocks = getStockData(["AAPL", "TSLA", "GOOG"]);
-  // console.log(my_stocks);
 
   const stocks = activeTab === "purchased" ? purchasedStocks : savedStocks;
 

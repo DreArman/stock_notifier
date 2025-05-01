@@ -1,20 +1,96 @@
-import { useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import PropTypes from "prop-types";
-import { addStock } from "../../services/stockService";
+import { getStockTickers, addStock } from "../../services/stockService";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const AddStockButton = ({ type, onAddStock }) => {
-  const [isOpen, setIsOpen] = useState(false);
+  // State variables
+  const [isOpen, setIsOpen] = useState(false); // Modal visibility
+  const [tickers, setTickers] = useState([]); // List of stock tickers
+  const [selectedTicker, setSelectedTicker] = useState(""); // Selected ticker
+  const [showDropdown, setShowDropdown] = useState(false); // Dropdown visibility
+  const [highlightedIndex, setHighlightedIndex] = useState(-1); // Highlighted dropdown item
+  const dropdownRef = useRef(null); // Reference for dropdown
 
+  // Fetch tickers on component mount
+  useEffect(() => {
+    const fetchTickers = async () => {
+      try {
+        const data = await getStockTickers();
+        setTickers(data.tickers); // Set tickers in state
+      } catch (error) {
+        toast.error("Failed to fetch stock tickers.", {
+          position: toast.POSITION.TOP_RIGHT,
+          autoClose: 1000,
+        });
+        console.error("Error fetching stock tickers:", error);
+      }
+    };
+    fetchTickers();
+  }, []);
+
+  // Handle ticker input change
+  const handleTickerChange = (e) => {
+    setSelectedTicker(e.target.value);
+    setShowDropdown(true); // Show dropdown when typing
+    setHighlightedIndex(-1); // Reset highlighted index
+  };
+
+  // Handle ticker selection
+  const selectTicker = (ticker) => {
+    setSelectedTicker(ticker);
+    setShowDropdown(false); // Hide dropdown after selection
+    setHighlightedIndex(-1); // Reset highlighted index
+  };
+
+  // Handle keyboard navigation in dropdown
+  const handleKeyDown = (e) => {
+    if (!showDropdown) return;
+
+    const filteredTickers = tickers.filter((ticker) =>
+      ticker.toLowerCase().includes(selectedTicker.toLowerCase())
+    );
+
+    if (e.key === "ArrowDown") {
+      setHighlightedIndex((prevIndex) =>
+        prevIndex < filteredTickers.length - 1 ? prevIndex + 1 : 0
+      );
+    } else if (e.key === "ArrowUp") {
+      setHighlightedIndex((prevIndex) =>
+        prevIndex > 0 ? prevIndex - 1 : filteredTickers.length - 1
+      );
+    } else if (e.key === "Enter" && highlightedIndex >= 0) {
+      selectTicker(filteredTickers[highlightedIndex]);
+      e.preventDefault(); // Prevent form submission
+    } else if (e.key === "Escape") {
+      setShowDropdown(false); // Close dropdown
+    }
+  };
+
+  // Close dropdown when clicking outside
+  const handleClickOutside = (event) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      setShowDropdown(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  // Handle stock submission
   const handleStockSubmit = async (e) => {
     e.preventDefault();
-    const stockTicker = e.target.ticker.value.trim();
     const quantity = type === "purchased" ? parseInt(e.target.quantity.value, 10) : null;
     const price = type === "purchased" ? parseFloat(e.target.price.value) : null;
 
-    if (!stockTicker) {
-      toast.error("Stock Name and Ticker are required.", {
+    // Validate the selected ticker
+    if (!tickers.includes(selectedTicker.toUpperCase())) {
+      toast.error("Invalid stock ticker. Please select from the list.", {
         position: toast.POSITION.TOP_RIGHT,
         autoClose: 1000,
       });
@@ -23,12 +99,12 @@ const AddStockButton = ({ type, onAddStock }) => {
 
     try {
       // Add stock to the backend
-      const data = await addStock({ stock_ticker: stockTicker, type });
+      const data = await addStock({ stock_ticker: selectedTicker, type });
       console.log("Stock added successfully:", data);
 
       // Add stock to the local state
       const newStock = {
-        symbol: stockTicker.toUpperCase(),
+        symbol: selectedTicker.toUpperCase(),
         quantity: quantity || null,
         purchased: price || null,
         today: price || null, // Placeholder for current price
@@ -73,17 +149,53 @@ const AddStockButton = ({ type, onAddStock }) => {
             </div>
             <form className="modal-body py-0" onSubmit={handleStockSubmit}>
               <p>Write down your stock info</p>
-              <input
-                id="ticker"
-                name="ticker"
-                type="text"
-                className="form-control mb-md-2"
-                placeholder="Ticker: AAPL"
-                required
-                onInput={(e) => {
-                  e.target.value = e.target.value.replace(/[^a-zA-Z]/g, "").toUpperCase();
-                }}
-              />
+              <div className="position-relative" ref={dropdownRef}>
+                <input
+                  id="ticker"
+                  name="ticker"
+                  type="text"
+                  className="form-control mb-md-2"
+                  placeholder="Ticker: AAPL"
+                  value={selectedTicker}
+                  onChange={handleTickerChange}
+                  onKeyDown={handleKeyDown} // Handle arrow keys and Enter
+                  onClick={() => setShowDropdown(true)}
+                  required
+                />
+                {showDropdown && (
+                  <ul
+                    className="dropdown-menu show w-100"
+                    style={{
+                      maxHeight: "200px",
+                      overflowY: "auto",
+                      position: "absolute",
+                      zIndex: 1000,
+                    }}
+                  >
+                    {tickers
+                      .filter((ticker) =>
+                        ticker.toLowerCase().includes(selectedTicker.toLowerCase())
+                      )
+                      .map((ticker, index) => (
+                        <li
+                          key={ticker}
+                          className={`dropdown-item ${
+                            index === highlightedIndex ? "active" : ""
+                          }`}
+                          onMouseEnter={() => setHighlightedIndex(index)} // Highlight on hover
+                          onClick={() => selectTicker(ticker)}
+                        >
+                          {ticker}
+                        </li>
+                      ))}
+                    {tickers.filter((ticker) =>
+                      ticker.toLowerCase().includes(selectedTicker.toLowerCase())
+                    ).length === 0 && (
+                      <li className="dropdown-item text-muted">No results found</li>
+                    )}
+                  </ul>
+                )}
+              </div>
               {type === "purchased" && (
                 <>
                   <input

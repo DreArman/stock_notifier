@@ -3,24 +3,38 @@ import Pages from "../constants/Pages";
 
 const NavLinks = () => {
   return (
-    <ul className="nav nav-pills">
+    <ul className="nav nav-pills d-flex align-items-center" style={{ gap: "1rem" }}>
       <li className="nav-item">
-        <NavLink to={Pages.DASHBOARD} className={({ isActive }) => `nav-link ${isActive || location.pathname === Pages.ROOT ? "active" : ""}`}>
+        <NavLink
+          to={Pages.DASHBOARD}
+          className={({ isActive }) =>
+            `nav-link ${isActive || location.pathname === Pages.ROOT ? "active" : ""}`
+          }
+        >
           Main
         </NavLink>
       </li>
       <li className="nav-item">
-        <NavLink to={Pages.STOCKS} className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}>
+        <NavLink
+          to={Pages.STOCKS}
+          className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
+        >
           Stocks
         </NavLink>
       </li>
       <li className="nav-item">
-        <NavLink to={Pages.FORECAST} className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}>
+        <NavLink
+          to={Pages.FORECAST}
+          className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
+        >
           Forecast
         </NavLink>
       </li>
       <li className="nav-item">
-        <NavLink to={Pages.STOCK_ALERTS} className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}>
+        <NavLink
+          to={Pages.STOCK_ALERTS}
+          className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
+        >
           Alerts
         </NavLink>
       </li>

@@ -53,7 +53,7 @@ const ProfileButton = ({ user }) => {
         <div className="position-absolute top-100 end-0 mt-2 p-3 shadow rounded border card" style={{ width: "250px", zIndex: 1050}}>
           <p className="mb-1"><strong>Name Surname:</strong><br/>{user.username}</p>
           <p className="mb-1"><strong>Email:</strong><br/>{user.email}</p>
-          <button className="btn btn-outline-primary w-100 mt-2" onClick={() => navigate(Pages.PROFILE)}>Edit</button>
+          <button className="btn btn-outline-primary w-100 mt-2" onClick={() => navigate(Pages.PROFILE)}>Settings</button>
           <button className="btn btn-outline-danger w-100 mt-2" onClick={logoutClick}>Log out</button>
         </div>
       )}
