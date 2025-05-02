@@ -1,22 +1,42 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import StockCard from "../../components/elements/StockCard";
 import AddStockButton from "../../components/elements/AddStockButton";
-import { getStockData, getUserStocks, getStockTickers } from "../../services/stockService";
-
-import { purchasedStocks as initialPurchasedStocks, savedStocks as initialSavedStocks } from "../../constants/StockInfo";
+import { getUserStocks } from "../../services/stockService";
 
 const Stocks = () => {
   const [activeTab, setActiveTab] = useState("purchased");
-  const [purchasedStocks, setPurchasedStocks] = useState(initialPurchasedStocks);
-  const [savedStocks, setSavedStocks] = useState(initialSavedStocks);
+  const [purchasedStocks, setPurchasedStocks] = useState([]);
+  const [savedStocks, setSavedStocks] = useState([]);
+
+  useEffect(() => {
+    const fetchUserStocks = async () => {
+      try {
+        const response = await getUserStocks();
+
+        // Separate stocks by type
+        const purchased = response.filter((stock) => stock.type === "purchased");
+        const saved = response.filter((stock) => stock.type === "saved");
+
+        setPurchasedStocks(purchased);
+        setSavedStocks(saved);
+
+        console.log("Purchased Stocks:", purchased);
+        console.log("Saved Stocks:", saved);
+      } catch (error) {
+        console.error("Error fetching user stocks:", error);
+      }
+    };
+
+    fetchUserStocks();
+  }, []);
 
   const stocks = activeTab === "purchased" ? purchasedStocks : savedStocks;
 
   const removeStock = (symbol) => {
     if (activeTab === "purchased") {
-      setPurchasedStocks(purchasedStocks.filter((stock) => stock.symbol !== symbol));
+      setPurchasedStocks(purchasedStocks.filter((stock) => stock.stock_name !== symbol));
     } else {
-      setSavedStocks(savedStocks.filter((stock) => stock.symbol !== symbol));
+      setSavedStocks(savedStocks.filter((stock) => stock.stock_name !== symbol));
     }
   };
 
