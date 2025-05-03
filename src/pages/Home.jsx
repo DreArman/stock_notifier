@@ -7,8 +7,8 @@ const Home = () => {
         <div className="col-lg-6 px-0">
           <h1 className="display-4 fst-italic">Welcome to DDDream&apos;s Stock Notifier</h1>
           <p className="lead my-3">
-            Stay in control of your investments with Telegram alerts.
-            Get forecasts, price signals, powered by technical and fundamental analysis.
+            Take control of your investments with AI forecasts and Telegram alerts. 
+            Get updates on your stock performance, monitor profits, and receive smart predictions — all in one place.
           </p>
         </div>
       </div>
@@ -16,30 +16,41 @@ const Home = () => {
       <div className="row align-items-md-stretch">
         <div className="col-md-6">
           <div className="h-100 p-5 text-bg-dark rounded-3">
-            <h1>Track &amp; Analyze Stocks</h1>
+            <h1>Track Your Portfolio</h1>
             <p>
-              Monitor stock performance and trends with our advanced tools. 
-              Our platform integrates both <strong>technical analysis</strong> (chart patterns, indicators, price momentum) 
-              and <strong>fundamental analysis</strong> (financial reports, earnings, ratios) to give you a 360° market view. 
-              Stay ahead of the curve by spotting opportunities before they surface.
+              Keep an eye on your personal stock collection. 
+              Our platform helps you track performance, view daily price data, and calculate profits. 
+              Everything is synced with your profile so you stay informed at every step.
             </p>
-            <a className="btn btn-outline-light" type="button" href={Pages.FORECAST}>
-              Forecast Stocks
+            <a className="btn btn-outline-light" type="button" href={Pages.STOCKS}>
+              My Stocks
             </a>
           </div>
         </div>
 
         <div className="col-md-6">
           <div className="h-100 p-5 bg-body-tertiary border rounded-3">
-            <h2>Get Alerts</h2>
+            <h2>Get Telegram Alerts</h2>
             <p>
-              Receive timely, personalized alerts about stock price changes, market news, and earnings updates — 
-              directly in your <strong>Telegram</strong>. 
-              Set your own thresholds, customize your watchlist, and let our smart notification engine work for you. 
-              Whether you&apos;re a day trader or a long-term investor, you&apos;ll never miss a key event again.
+              Receive personalized stock notifications directly in <strong>Telegram</strong>. 
+              Set alerts for price changes, profits, or forecast updates. 
+              Once your account is linked, our system will notify you automatically — no extra steps needed.
             </p>
             <a className="btn btn-outline-light" type="button" href={Pages.STOCK_ALERTS}>
-              Stock Alerts
+              Manage Alerts
+            </a>
+          </div>
+        </div>
+
+        <div className="col-md-12 mt-4">
+          <div className="h-100 p-5 bg-body-secondary border rounded-3">
+            <h2>AI Forecasting</h2>
+            <p>
+              Use our integrated GPT model to forecast stock prices for the next week, month, or year. 
+              Each prediction includes estimated values and a confidence level, helping you make data-driven decisions for future investments.
+            </p>
+            <a className="btn btn-outline-light" type="button" href={Pages.FORECAST}>
+              View Forecasts
             </a>
           </div>
         </div>
