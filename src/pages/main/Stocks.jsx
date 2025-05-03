@@ -12,6 +12,7 @@ const Stocks = () => {
     const fetchUserStocks = async () => {
       try {
         const response = await getUserStocks();
+        console.log("Fetched user stocks:", response); // Log the fetched data
 
         // Separate stocks by type
         const purchased = response.filter((stock) => stock.type === "purchased");

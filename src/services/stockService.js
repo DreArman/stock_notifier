@@ -31,9 +31,14 @@ export const getStockData = async (id) => {
   }
 }
 
-export const addStock = async (stock_ticker, type) => {
+export const addStock = async (stock_ticker, type, purchase_price, quantity, purchased_date) => {
+  console.log("Adding stock:", { stock_ticker, type, purchase_price, quantity, purchased_date });
   try {
-    const response = await API.post("/user-stock", stock_ticker, type);
+    const response = await API.post(
+      "/user-stock",
+      { purchase_price, quantity, purchased_date },
+      { params: { "stock_ticker": stock_ticker, "type": type } }
+    );
     return response.data;
   } catch (error) {
     console.error("Error adding stock:", error);

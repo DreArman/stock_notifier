@@ -10,6 +10,7 @@ const StockCard = ({ stock, onRemove }) => {
     const fetchStockData = async () => {
       try {
         const data = await getStockData(stock.ticker_id); // Fetch stock data
+        console.log("Fetched stock data:", data); // Log the fetched data
         if (data && data.length > 0) {
           setStockData(data[0]); // Set the first element of the array
         }
