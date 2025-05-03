@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { getStockTickers } from '../../services/stockService';
-import axios from "axios";
+import { getForecast } from '../../services/forecastService';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -88,23 +88,35 @@ const Forecast = () => {
       toast.error('Please select a stock symbol.');
       return;
     }
-
+  
     // Validate the selected symbol against the tickers list
     if (!tickers.includes(selectedSymbol.toUpperCase())) {
       toast.error('Invalid stock symbol. Please select from the list.');
       return;
     }
-
+  
     setLoading(true);
     setPredictions({ oneWeek: null, oneMonth: null, oneYear: null }); // Reset predictions
-
+  
     try {
-      const response = await axios.post('/api/predict', { symbol: selectedSymbol }); // Replace with your backend endpoint
-      setPredictions({
-        oneWeek: response.data.oneWeek || { cost: '-', confidence: '-' },
-        oneMonth: response.data.oneMonth || { cost: '-', confidence: '-' },
-        oneYear: response.data.oneYear || { cost: '-', confidence: '-' },
-      });
+      const response = await getForecast(selectedSymbol); // Fetch forecast data
+      const forecastData = response.forecasts.find(
+        (forecast) => forecast.stock_ticker === selectedSymbol.toUpperCase()
+      );
+  
+      if (forecastData) {
+        const oneWeek = forecastData.data.find((item) => item.period === "week") || { price: '-', confidence: '-' };
+        const oneMonth = forecastData.data.find((item) => item.period === "month") || { price: '-', confidence: '-' };
+        const oneYear = forecastData.data.find((item) => item.period === "year") || { price: '-', confidence: '-' };
+  
+        setPredictions({
+          oneWeek: { cost: oneWeek.price, confidence: oneWeek.confidence },
+          oneMonth: { cost: oneMonth.price, confidence: oneMonth.confidence },
+          oneYear: { cost: oneYear.price, confidence: oneYear.confidence },
+        });
+      } else {
+        toast.error('No forecast data available for the selected stock.');
+      }
     } catch (err) {
       toast.error(err.response?.data?.message || 'Failed to fetch predictions. Please try again.');
     } finally {

@@ -21,9 +21,9 @@ export const getUserStocks = async () => {
   }
 };
 
-export const getStockData = async (stock_tickers) => {
+export const getStockData = async (id) => {
   try {
-    const response = await API.get("/stocks", { tickers: stock_tickers });
+    const response = await API.get("/stocks", { params: { stock_id: id }});
     return response.data;
   } catch (error) {
     console.error("Error fetching stock data:", error);
