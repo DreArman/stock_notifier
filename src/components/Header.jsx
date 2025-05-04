@@ -9,9 +9,9 @@ import { NavLink } from "react-router-dom";
 
 const Header = () => {
   const [notifications] = useState([
-    { id: 1, text: "Новое сообщение от администратора", read: false },
-    { id: 2, text: "Система обновлена до версии 2.1", read: true },
-    { id: 3, text: "Ваш отчет готов к скачиванию", read: true },
+    { id: 1, text: "Daily changes: AAPL $172.45 ▲ | TSLA $231.10 ▼ | AMZN $125.00 ▲ | MSFT $310.75 ▼", read: false},
+    { id: 2, text: "Custom Alert: TSLA $253.70 ↑ (Above $250.00)", read: true },
+    { id: 3, text: "Significant Change: AAPL $172.45 ↓ −9.5% from buy $190.50", read: true },
   ]);
 
   const { user, isAuth } = useContext(AuthContext);

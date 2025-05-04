@@ -299,21 +299,60 @@ const NotificationSettings = () => {
                 </label>
               </div>
 
-              <div className="form-check form-switch">
+              <div className="form-check form-switch mb-3">
                 <input
                   className="form-check-input"
                   type="checkbox"
                   id="significantChanges"
                   checked={notificationPrefs.significantChanges}
-                  onChange={() => handlePrefChange('significantChanges')}
+                  onChange={() => handlePrefChange("significantChanges")}
                 />
                 <label className="form-check-label" htmlFor="significantChanges">
                   <strong>Significant Changes</strong>
                   <p className="text-muted mb-0">
-                    Alert on significant price changes (±5%)
+                    Alert on significant price changes (±
+                    {Math.max(
+                      5,
+                      Math.min(
+                        notificationPrefs.priceChangePercentage || 5,
+                        100
+                      )
+                    )}
+                    %)
                   </p>
                 </label>
               </div>
+
+              {/* Show input field only if "Significant Changes" is enabled */}
+              {notificationPrefs.significantChanges && (
+                <div className="mb-3">
+                  <label className="form-label">Price Change Percentage</label>
+                  <input
+                    type="number"
+                    className="form-control"
+                    placeholder="Enter percentage (5-100)"
+                    value={notificationPrefs.priceChangePercentage || ""}
+                    onChange={(e) => {
+                      setNotificationPrefs({
+                        ...notificationPrefs,
+                        priceChangePercentage: e.target.value, // Allow user to type any number
+                      });
+                    }}
+                    onBlur={() => {
+                      // Replace invalid numbers after editing
+                      const value = parseInt(notificationPrefs.priceChangePercentage, 10);
+                      if (isNaN(value) || value < 5) {
+                        setNotificationPrefs({ ...notificationPrefs, priceChangePercentage: 5 });
+                      } else if (value > 100) {
+                        setNotificationPrefs({ ...notificationPrefs, priceChangePercentage: 100 });
+                      }
+                    }}
+                  />
+                  <p className="text-muted mt-1">
+                    Set the percentage change for significant price alerts.
+                  </p>
+                </div>
+              )}
             </div>
           </div>
         </div>
