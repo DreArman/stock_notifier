@@ -5,7 +5,7 @@ const Home = () => {
     <div className="flex flex-col md:flex-row items-center justify-center p-4 px-md-5 py-md-4 mb-4 rounded">
       <div className="p-4 p-md-4 mb-3 rounded text-body-emphasis border bg-body-secondary">
         <div className="col-lg-6 px-0">
-          <h1 className="display-4 fst-italic">Welcome to DDDream&apos;s Stock Notifier</h1>
+          <h1 className="display-4 fst-italic">Welcome to StockPulse</h1>
           <p className="lead my-3">
             Take control of your investments with AI forecasts and Telegram alerts. 
             Get updates on your stock performance, monitor profits, and receive smart predictions — all in one place.
