@@ -4,7 +4,7 @@ import { getStockTickers, addStock } from "../../services/stockService";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const AddStockButton = ({ type, onAddStock }) => {
+const AddStockButton = ({ type }) => {
   // State variables
   const [isOpen, setIsOpen] = useState(false); // Modal visibility
   const [tickers, setTickers] = useState([]); // List of stock tickers
@@ -28,6 +28,11 @@ const AddStockButton = ({ type, onAddStock }) => {
       }
     };
     fetchTickers();
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
   }, []);
 
   // Handle ticker input change
@@ -74,20 +79,17 @@ const AddStockButton = ({ type, onAddStock }) => {
       setShowDropdown(false);
     }
   };
-
-  useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
-
+  
   // Handle stock submission
   const handleStockSubmit = async (e) => {
     e.preventDefault();
-    const quantity = type === "purchased" ? parseInt(e.target.quantity.value, 10) : null;
-    const price = type === "purchased" ? parseFloat(e.target.price.value) : null;
-
+    const quantity = type === "purchased" ? parseInt(e.target.quantity?.value, 10) : null;
+    const price = type === "purchased" ? parseFloat(e.target.price?.value) : null;
+    const purchasedDate =
+      type === "purchased" && e.target.purchased_date?.value
+        ? new Date(e.target.purchased_date.value).toISOString() // Convert to ISO format
+        : null;
+  
     // Validate the selected ticker
     if (!tickers.includes(selectedTicker.toUpperCase())) {
       toast.error("Invalid stock ticker. Please select from the list.", {
@@ -96,35 +98,24 @@ const AddStockButton = ({ type, onAddStock }) => {
       });
       return;
     }
-
+  
     try {
       // Add stock to the backend
-      const data = await addStock({ stock_ticker: selectedTicker, type });
+      const data = await addStock(
+        selectedTicker,
+        type,
+        price,
+        quantity,
+        purchasedDate,
+      );
       console.log("Stock added successfully:", data);
-
-      // Add stock to the local state
-      const newStock = {
-        symbol: selectedTicker.toUpperCase(),
-        quantity: quantity || null,
-        purchased: price || null,
-        today: price || null, // Placeholder for current price
-        totalToday: quantity && price ? quantity * price : null,
-        totalPurchased: quantity && price ? quantity * price : null,
-        totalReturn: null, // Placeholder for total return
-      };
-
-      onAddStock(newStock); // Update the stock list in the parent component
-      toast.success("Stock added successfully!", {
-        position: toast.POSITION.TOP_RIGHT,
-        autoClose: 1000,
-      });
-      setIsOpen(false);
+      window.location.reload(); // Reload the page to reflect changes
     } catch (error) {
-      toast.error("Error adding stock. Please try again.", {
+      console.error("Error adding stock:", error);
+      toast.error("Failed to add stock. Please try again.", {
         position: toast.POSITION.TOP_RIGHT,
         autoClose: 1000,
       });
-      console.error("Error adding stock:", error);
     }
   };
 
@@ -213,6 +204,13 @@ const AddStockButton = ({ type, onAddStock }) => {
                     step="0.01"
                     className="form-control mb-md-2"
                     placeholder="Price: number"
+                    required
+                  />
+                  <input
+                    id="purchased_date"
+                    name="purchased_date"
+                    type="datetime-local" // Changed from "date" to "datetime-local"
+                    className="form-control mb-md-2"
                     required
                   />
                 </>
