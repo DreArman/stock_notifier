@@ -77,14 +77,14 @@ const StockCard = ({ stock, onRemove }) => {
             const totalReturn = stockData.price * stock.quantity - stock.total_price;
             const returnPercentage =
               ((totalReturn / stock.total_price) * 100).toFixed(2);
-
+            console.log("Total Return:", totalReturn); // Log the total return
             return (
               <p
                 className={`fw-bold ${
                   totalReturn >= 0 ? "text-success" : "text-danger"
                 }`}
               >
-                Total Return: {totalReturn} ({returnPercentage}%)
+                Total Return: {totalReturn.toFixed(2)} ({returnPercentage}%)
               </p>
             );
           })()
