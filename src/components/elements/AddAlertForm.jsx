@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import { getStockData } from "../../services/stockService";
 
 const AddAlertForm = ({ setShowAddAlert, alerts, setAlerts, tickers }) => {
-  const [newAlert, setNewAlert] = useState({ symbol: "", above: "", below: "" });
+  const [newAlert, setNewAlert] = useState({ symbol: "", status: false, above: "", below: "" });
   const [todaysPrice, setTodaysPrice] = useState(null);
   const [stockDetails, setStockDetails] = useState(null);
   const dropdownRef = useRef(null);
@@ -38,38 +38,30 @@ const AddAlertForm = ({ setShowAddAlert, alerts, setAlerts, tickers }) => {
   };
 
   const handleAddAlert = () => {
-    const selectedStock = tickers.find(
-      (stock) => stock.symbol.toLowerCase() === newAlert.symbol.toLowerCase()
-    );
+    const symbol = newAlert.symbol.trim().toUpperCase();
+    const above = parseFloat(newAlert.above);
+    const below = parseFloat(newAlert.below);
 
-    if (!selectedStock) {
-      toast.error("Stock symbol is not valid or not in the list.");
+    if (!symbol) {
+      toast.error("Please enter a stock symbol.");
       return;
     }
 
-    const above = parseFloat(newAlert.above) || null;
-    const below = parseFloat(newAlert.below) || null;
-
-    if (above && above < selectedStock.price) {
-      toast.error("Above price must be greater than the current price.");
+    if (isNaN(above) && isNaN(below)) {
+      toast.error("Please enter a price for either 'Above' or 'Below'.");
       return;
     }
 
-    if (below && below > selectedStock.price) {
-      toast.error("Below price must be less than the current price.");
+    if (alerts.some((alert) => alert.symbol.toUpperCase() === symbol)) {
+      toast.error("Alert for this stock symbol already exists.");
       return;
     }
 
-    setAlerts([
-      ...alerts,
-      {
-        symbol: selectedStock.symbol.toUpperCase(),
-        above,
-        below,
-      },
-    ]);
-    setNewAlert({ symbol: "", above: "", below: "" });
+    setAlerts([...alerts, { ...newAlert, symbol: symbol, status: true }]);
     setShowAddAlert(false);
+    setNewAlert({ symbol: "", status: false, above: "", below: "" });
+    setTodaysPrice(null);
+    setStockDetails(null);
   };
 
   return (

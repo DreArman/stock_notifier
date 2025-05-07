@@ -1,16 +1,24 @@
 import PropTypes from "prop-types";
 
-const AlertCard = ({ alert, onClick }) => {
+const AlertCard = ({ alert, onClick, onEdit }) => {
   return (
     <div className="mb-4 p-3 border rounded">
       <div className="d-flex justify-content-between align-items-center mb-2">
         <h3 className="h5 mb-0">{alert.symbol}</h3>
+        <div>
+        <button
+          className="btn btn-sm btn-outline-secondary"
+          onClick={() => onEdit(alert.symbol)} // Use the onClick prop
+        >
+          Edit
+        </button>
         <button
           className="btn btn-sm btn-outline-danger"
           onClick={() => onClick(alert.symbol)} // Use the onClick prop
         >
           Remove
         </button>
+        </div>
       </div>
       <div className="row">
         <div className="col-md-6 mb-2">
@@ -49,6 +57,7 @@ AlertCard.propTypes = {
     below: PropTypes.number.isRequired,
   }).isRequired,
   onClick: PropTypes.func.isRequired,
+  onEdit: PropTypes.func.isRequired,
 };
 
 export default AlertCard;

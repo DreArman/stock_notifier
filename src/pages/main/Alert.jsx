@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import CustomPriceAlerts from "../../components/elements/CustomPriceAlerts";
+import CustomPriceAlerts from "../../components/CustomPriceAlerts";
 import PriceChangeInput from "../../components/elements/PriceChangeInput";
 import { getStockTickers } from "../../services/stockService";
 import { setDailySummary, setSignificantChanges, getAlerts } from "../../services/alertService";
@@ -11,13 +11,33 @@ const Alerts = () => {
   const [significant, setSignificantStatus] = useState(false);
   const [percentage, setPercentage] = useState(5);
   const [alerts, setAlerts] = useState([
-    { symbol: "AAPL", above: 190.0, below: 170.0 },
-    { symbol: "TSLA", above: 250.0, below: 220.0 },
+    { symbol: "AAPL", status: true, above: 190.0, below: 170.0 },
+    { symbol: "TSLA", status: true, above: 250.0, below: 220.0 },
   ]);
 
   const [tickers, setTickers] = useState([]);
 
   useEffect(() => {
+    // const fetchCustomAlerts = async () => {
+    //   try {
+    //     const data = await getCustomAlerts();
+    //     if (data) {
+    //       const customAlerts = data.map((alert) => ({
+    //       symbol: alert.ticker,
+    //       status: alert.status,
+    //       above: alert.above,
+    //       below: alert.below,
+    //       }));
+    //       setAlerts(customAlerts);
+    //     }
+    //     console.log("Custom alerts fetched:", data);
+    //   } catch (error) {
+    //     console.error("Error fetching custom alerts:", error);
+    //     toast.error("Failed to fetch custom alerts. Please try again later.");
+    //   }
+    // };
+    // fetchCustomAlerts();
+
     const fetchAlerts = async () => {
       try {
         const data = await getAlerts();
