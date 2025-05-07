@@ -3,40 +3,34 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import CustomPriceAlerts from "../../components/CustomPriceAlerts";
 import PriceChangeInput from "../../components/elements/PriceChangeInput";
-import { getStockTickers } from "../../services/stockService";
-import { setDailySummary, setSignificantChanges, getAlerts } from "../../services/alertService";
+import { setDailySummary, setSignificantChanges, getAlerts, getCustomAlerts } from "../../services/alertService";
 
 const Alerts = () => {
   const [daily, setDailyStatus] = useState(false);
   const [significant, setSignificantStatus] = useState(false);
   const [percentage, setPercentage] = useState(5);
-  const [alerts, setAlerts] = useState([
-    { symbol: "AAPL", status: true, above: 190.0, below: 170.0 },
-    { symbol: "TSLA", status: true, above: 250.0, below: 220.0 },
-  ]);
-
-  const [tickers, setTickers] = useState([]);
+  const [alerts, setAlerts] = useState([]);
 
   useEffect(() => {
-    // const fetchCustomAlerts = async () => {
-    //   try {
-    //     const data = await getCustomAlerts();
-    //     if (data) {
-    //       const customAlerts = data.map((alert) => ({
-    //       symbol: alert.ticker,
-    //       status: alert.status,
-    //       above: alert.above,
-    //       below: alert.below,
-    //       }));
-    //       setAlerts(customAlerts);
-    //     }
-    //     console.log("Custom alerts fetched:", data);
-    //   } catch (error) {
-    //     console.error("Error fetching custom alerts:", error);
-    //     toast.error("Failed to fetch custom alerts. Please try again later.");
-    //   }
-    // };
-    // fetchCustomAlerts();
+    const fetchCustomAlerts = async () => {
+      try {
+        const data = await getCustomAlerts();
+        if (data) {
+          const customAlerts = data.map((alert) => ({
+          symbol: alert.ticker,
+          status: alert.status,
+          above: alert.above_price,
+          below: alert.below_price,
+          }));
+          setAlerts(customAlerts);
+        }
+        console.log("Custom alerts fetched:", data);
+      } catch (error) {
+        console.error("Error fetching custom alerts:", error);
+        toast.error("Failed to fetch custom alerts. Please try again later.");
+      }
+    };
+    fetchCustomAlerts();
 
     const fetchAlerts = async () => {
       try {
@@ -52,17 +46,6 @@ const Alerts = () => {
       }
     };
     fetchAlerts();
-
-    const fetchStockTickers = async () => {
-      try {
-        const data = await getStockTickers();
-        setTickers(data);
-      } catch (error) {
-        console.error("Error fetching stock tickers:", error);
-        toast.error("Failed to fetch stock tickers. Please try again later.");
-      }
-    };
-    fetchStockTickers();
   }, []);
 
   const handleDailySummary = async () => {
@@ -100,7 +83,7 @@ const Alerts = () => {
       <div className="row">
         {/* Custom Price Alerts Section */}
         <div className="col-md-6">
-          <CustomPriceAlerts alerts={alerts} setAlerts={setAlerts} tickers={tickers} />
+          <CustomPriceAlerts alerts={alerts} setAlerts={setAlerts}/>
         </div>
 
         {/* Notification Preferences Section */}

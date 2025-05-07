@@ -25,11 +25,18 @@ export const setSignificantChanges = (status, percent) => {
 export const setCustomAlert = (ticker, status, above, below) => {
     console.log("Setting custom alert for ticker:", { ticker }, "between", {above}, "and", {below});
     try {
+        if (status){
         const response = API.post("/custom-prices",
-            { status, above, below },
+            { "status" : status, "above_price" : above, "below_price" : below },
             { params: { "stock_ticker": ticker } }
         );
         return response.data;   
+        }
+        const response = API.post("/custom-prices",
+            { "status" : status, "above_price" : 0, "below_price" : 0 },
+            { params: { "stock_ticker": ticker } }
+        );
+        return response.data;
     }
     catch (error) {
         console.error("Error setting custom alert:", error);
