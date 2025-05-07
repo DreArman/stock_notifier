@@ -46,9 +46,9 @@ export const addStock = async (stock_ticker, type, purchase_price, quantity, pur
   }
 };
 
-export const deleteStock = async (stock_ticker) => {
+export const deleteStock = async (stock_id) => {
   try {
-    const response = await API.delete(`/user-stock/${stock_ticker}`);
+    const response = await API.delete("/user-stock", { params: { "id": stock_id } });
     return response.data;
   } catch (error) {
     console.error("Error deleting stock:", error);

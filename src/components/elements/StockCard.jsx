@@ -23,7 +23,7 @@ const StockCard = ({ stock, onRemove }) => {
   }, [stock.ticker_id]); // Re-run if the ticker_id changes
 
   const handleDelete = () => {
-    onRemove(stock.stock_name); // Call the onRemove function with the stock symbol
+    onRemove(stock.id); // Call the onRemove function with the stock symbol
   };
 
   if (!stockData) {
@@ -96,6 +96,7 @@ const StockCard = ({ stock, onRemove }) => {
 
 StockCard.propTypes = {
   stock: PropTypes.shape({
+    id: PropTypes.number.isRequired,
     ticker_id: PropTypes.number.isRequired,
     stock_name: PropTypes.string.isRequired,
     purchase_price: PropTypes.number,

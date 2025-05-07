@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import StockCard from "../../components/elements/StockCard";
 import AddStockButton from "../../components/elements/AddStockButton";
-import { getUserStocks } from "../../services/stockService";
+import { getUserStocks, deleteStock } from "../../services/stockService";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Stocks = () => {
   const [activeTab, setActiveTab] = useState("purchased");
@@ -33,24 +35,39 @@ const Stocks = () => {
 
   const stocks = activeTab === "purchased" ? purchasedStocks : savedStocks;
 
-  const removeStock = (symbol) => {
-    if (activeTab === "purchased") {
-      setPurchasedStocks(purchasedStocks.filter((stock) => stock.stock_name !== symbol));
-    } else {
-      setSavedStocks(savedStocks.filter((stock) => stock.stock_name !== symbol));
+  const removeStock = async (id) => {
+    try {
+      // Call the deleteStock function from the service
+      await deleteStock(id);
+
+      if (activeTab === "purchased") {
+        setPurchasedStocks(purchasedStocks.filter((stock) => stock.id !== id));
+      } else {
+        setSavedStocks(savedStocks.filter((stock) => stock.id !== id));
+      }
+      toast.success("Stock removed successfully.", {
+        autoClose: 1000,
+      });
+      console.log(`Stock with ID ${id} removed successfully.`);
+    } catch (error) {
+      toast.error("Error removing stock.", {
+        autoClose: 1000,
+      });
+      console.error(`Error removing stock with ID ${id}:`, error);
     }
   };
 
-  const addStock = (newStock) => {
-    if (activeTab === "purchased") {
-      setPurchasedStocks([...purchasedStocks, newStock]);
-    } else {
-      setSavedStocks([...savedStocks, newStock]);
-    }
-  };
+  // const addStock = (newStock) => {
+  //   if (activeTab === "purchased") {
+  //     setPurchasedStocks([...purchasedStocks, newStock]);
+  //   } else {
+  //     setSavedStocks([...savedStocks, newStock]);
+  //   }
+  // };
 
   return (
     <main className="container">
+      <ToastContainer/>
       <h1 className="fw-bold">My Stocks</h1>
 
       {/* Tabs */}
@@ -82,7 +99,7 @@ const Stocks = () => {
 
       {/* Add New Stock Button */}
       <div className="text-center mt-4">
-        <AddStockButton type={activeTab} onAddStock={addStock} />
+        <AddStockButton type={activeTab} />
       </div>
     </main>
   );
