@@ -1,8 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
 import { getStockTickers } from '../../services/stockService';
-import { getForecast } from '../../services/forecastService';
+import { getForecast, getForecastData } from '../../services/forecastService';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import ViewHistory from '../../components/elements/ViewHistory';
 
 const Forecast = () => {
   const [tickers, setTickers] = useState([]); // State to store tickers
@@ -15,6 +16,8 @@ const Forecast = () => {
     oneYear: { cost: '-', confidence: '-' },
   });
   const [loading, setLoading] = useState(false);
+  const [showHistory, setShowHistory] = useState(false); // State to show/hide history modal
+  const [historyData, setHistoryData] = useState([]); // State to store history data
   const dropdownRef = useRef(null);
 
   // Fetch tickers on component mount
@@ -88,27 +91,27 @@ const Forecast = () => {
       toast.error('Please select a stock symbol.');
       return;
     }
-  
+
     // Validate the selected symbol against the tickers list
     if (!tickers.includes(selectedSymbol.toUpperCase())) {
       toast.error('Invalid stock symbol. Please select from the list.');
       return;
     }
-  
+
     setLoading(true);
     setPredictions({ oneWeek: null, oneMonth: null, oneYear: null }); // Reset predictions
-  
+
     try {
       const response = await getForecast(selectedSymbol); // Fetch forecast data
       const forecastData = response.forecasts.find(
         (forecast) => forecast.stock_ticker === selectedSymbol.toUpperCase()
       );
-  
+
       if (forecastData) {
         const oneWeek = forecastData.data.find((item) => item.period === "week") || { price: '-', confidence: '-' };
         const oneMonth = forecastData.data.find((item) => item.period === "month") || { price: '-', confidence: '-' };
         const oneYear = forecastData.data.find((item) => item.period === "year") || { price: '-', confidence: '-' };
-  
+
         setPredictions({
           oneWeek: { cost: oneWeek.price, confidence: oneWeek.confidence },
           oneMonth: { cost: oneMonth.price, confidence: oneMonth.confidence },
@@ -121,6 +124,18 @@ const Forecast = () => {
       toast.error(err.response?.data?.message || 'Failed to fetch predictions. Please try again.');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleViewHistory = async () => {
+    try {
+      const data = await getForecastData(); // Fetch forecast history data
+      const sortedData = data.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp)); // Sort by timestamp
+      setHistoryData(sortedData);
+      setShowHistory(true); // Show the history modal
+    } catch (err) {
+      console.error(err);
+      toast.error('Failed to fetch history data. Please try again.');
     }
   };
 
@@ -273,12 +288,30 @@ const Forecast = () => {
             </div>
           </div>
 
+          {/* View History Button */}
+          <div className="mt-4">
+            <button
+              className="btn btn-secondary"
+              onClick={handleViewHistory}
+            >
+              View History
+            </button>
+          </div>
+
           {/* Disclaimer */}
           <div className="mt-5 text-muted small">
             <p>© Predictions are based on historical data and market analysis. Past performance doesn&apos;t guarantee future results.</p>
           </div>
         </div>
       </div>
+
+      {/* ViewHistory Modal */}
+      {showHistory && (
+        <ViewHistory
+          data={historyData}
+          onClose={() => setShowHistory(false)}
+        />
+      )}
     </main>
   );
 };
