@@ -57,7 +57,7 @@ const StockCard = ({ stock, onRemove }) => {
         )}
         {stock.quantity !== null && (
           <p>
-            Today&apos;s Total: <strong>${stockData.price * stock.quantity}</strong>
+            Today&apos;s Total: <strong>${(stockData.price * stock.quantity).toFixed(2)}</strong>
           </p>
         )}
         {stock.purchase_price !== null && (
