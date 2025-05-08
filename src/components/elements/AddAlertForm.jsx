@@ -88,7 +88,12 @@ const AddAlertForm = ({ setShowAddAlert, alerts, setAlerts }) => {
     // Save the alert to the backend
     try {
       await setCustomAlert(symbol, true, above, below);
-      toast.success("Custom alert set successfully!");
+      toast.success("Custom alert set successfully!",
+        {
+          autoClose: 1000, // Decrease the toast display time to 2 seconds
+          // onClose: () => setTimeout(() => window.location.reload(), 2000), // Reload the page after 2 seconds
+        }
+      );
     } catch (error) {
       console.error("Error setting custom alert:", error);
       toast.error("Failed to set custom alert. Please try again later.");

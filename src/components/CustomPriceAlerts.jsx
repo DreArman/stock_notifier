@@ -12,7 +12,12 @@ const CustomPriceAlerts = ({ alerts, setAlerts }) => {
   const removeAlert = async (symbol) => {
     try {
       await setCustomAlert(symbol, false, 0, 0);
-      toast.success("Alert removed successfully!");
+      toast.success("Alert removed successfully!",
+        {
+          autoClose: 1000, // Decrease the toast display time to 2 seconds
+          // onClose: () => setTimeout(() => window.location.reload(), 2000), // Reload the page after 2 seconds
+        }
+      );
     }
     catch (error) {
       console.error("Error removing alert:", error);

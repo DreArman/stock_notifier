@@ -15,7 +15,12 @@ const PriceChangeInput = ({ percentage, setPercentage, significant, setSignifica
     // Call setSignificantChanges to save the updated percentage
     try {
       await setSignificantChanges(significant, validatedValue);
-      toast.success("Significant Changes percentage updated!");
+      toast.success("Significant Changes percentage updated!",
+        {
+          autoClose: 1000, // Decrease the toast display time to 2 seconds
+          // onClose: () => setTimeout(() => window.location.reload(), 2000), // Reload the page after 2 seconds
+        }
+      );
     } catch (error) {
       console.error("Error updating Significant Changes percentage:", error);
       toast.error("Failed to update percentage. Please try again.");

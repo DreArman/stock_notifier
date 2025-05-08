@@ -54,7 +54,12 @@ const Alerts = () => {
 
     try {
       await setDailySummary(newState); // Save the preference to the backend
-      toast.success("Daily Summary preference updated!");
+      toast.success("Daily Summary preference updated!",
+        {
+          autoClose: 1000, // Decrease the toast display time to 2 seconds
+          // onClose: () => setTimeout(() => window.location.reload(), 2000), // Reload the page after 2 seconds
+        }
+      );
     } catch (error) {
       console.error("Error updating Daily Summary preference:", error);
       toast.error("Failed to update preference. Please try again.");
@@ -67,7 +72,12 @@ const Alerts = () => {
 
     try {
       await setSignificantChanges(newState, percentage); // Save the preference to the backend
-      toast.success("Significant Changes preference updated!");
+      toast.success("Significant Changes preference updated!",
+        {
+          autoClose: 1000, // Decrease the toast display time to 2 seconds
+          // onClose: () => setTimeout(() => window.location.reload(), 2000), // Reload the page after 2 seconds
+        }
+      );
     } catch (error) {
       console.error("Error updating Significant Changes preference:", error);
       toast.error("Failed to update preference. Please try again.");
