@@ -23,7 +23,9 @@ const PriceChangeInput = ({ percentage, setPercentage, significant, setSignifica
       );
     } catch (error) {
       console.error("Error updating Significant Changes percentage:", error);
-      toast.error("Failed to update percentage. Please try again.");
+      toast.error("Failed to update percentage. Please try again.", {
+        autoClose: 1000,
+      });
     }
   };
 

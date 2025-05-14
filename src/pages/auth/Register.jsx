@@ -21,7 +21,9 @@ const Register = () => {
         navigate(Pages.VERIFY, { state: { email, username, password } });
       }
     } catch (err) {
-      toast.error(err || "Failed to send verification email.");
+      toast.error(err || "Failed to send verification email.", {
+        autoClose: 1000,
+      });
     }
   };
 
@@ -33,7 +35,9 @@ const Register = () => {
           <form
             onSubmit={(e) => {
               if (username.trim().split(/\s+/).length > 2) {
-                toast.error("Incorrect name format. Please enter a valid name.");
+                toast.error("Incorrect name format. Please enter a valid name.", {
+                  autoClose: 1000,
+                });
                 e.preventDefault();
                 return;
               }

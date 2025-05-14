@@ -27,7 +27,9 @@ const Forecast = () => {
         const data = await getStockTickers();
         setTickers(data.tickers); // Set tickers in state
       } catch {
-        toast.error("Failed to fetch stock tickers.");
+        toast.error("Failed to fetch stock tickers.", {
+          autoClose: 1000,
+        });
       }
     };
 
@@ -88,13 +90,17 @@ const Forecast = () => {
 
   const handlePredict = async () => {
     if (!selectedSymbol) {
-      toast.error('Please select a stock symbol.');
+      toast.error('Please select a stock symbol.', {
+        autoClose: 1000,
+      });
       return;
     }
 
     // Validate the selected symbol against the tickers list
     if (!tickers.includes(selectedSymbol.toUpperCase())) {
-      toast.error('Invalid stock symbol. Please select from the list.');
+      toast.error('Invalid stock symbol. Please select from the list.', {
+        autoClose: 1000,
+      });
       return;
     }
 
@@ -118,10 +124,14 @@ const Forecast = () => {
           oneYear: { cost: oneYear.price, confidence: oneYear.confidence },
         });
       } else {
-        toast.error('No forecast data available for the selected stock.');
+        toast.error('No forecast data available for the selected stock.', {
+          autoClose: 1000,
+        });
       }
     } catch (err) {
-      toast.error(err.response?.data?.message || 'Failed to fetch predictions. Please try again.');
+      toast.error(err.response?.data?.message || 'Failed to fetch predictions. Please try again.', {
+        autoClose: 1000,
+      });
     } finally {
       setLoading(false);
     }
@@ -135,7 +145,9 @@ const Forecast = () => {
       setShowHistory(true); // Show the history modal
     } catch (err) {
       console.error(err);
-      toast.error('Failed to fetch history data. Please try again.');
+      toast.error('Failed to fetch history data. Please try again.', {
+        autoClose: 1000,
+      });
     }
   };
 

@@ -21,7 +21,6 @@ const AddStockButton = ({ type }) => {
         setTickers(data.tickers); // Set tickers in state
       } catch (error) {
         toast.error("Failed to fetch stock tickers.", {
-          position: toast.POSITION.TOP_RIGHT,
           autoClose: 1000,
         });
         console.error("Error fetching stock tickers:", error);
@@ -93,7 +92,6 @@ const AddStockButton = ({ type }) => {
     // Validate the selected ticker
     if (!tickers.includes(selectedTicker.toUpperCase())) {
       toast.error("Invalid stock ticker. Please select from the list.", {
-        position: toast.POSITION.TOP_RIGHT,
         autoClose: 1000,
       });
       return;
@@ -113,7 +111,6 @@ const AddStockButton = ({ type }) => {
     } catch (error) {
       console.error("Error adding stock:", error);
       toast.error("Failed to add stock. Please try again.", {
-        position: toast.POSITION.TOP_RIGHT,
         autoClose: 1000,
       });
     }

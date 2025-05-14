@@ -33,7 +33,9 @@ const Verify = () => {
         try {
             await verifyEmail(email, verificationCode); // Verify the code
         } catch (err) {
-            toast.error(err.message || "Verification failed. Please check the code and try again."); // Specific error for verification
+            toast.error(err.message || "Verification failed. Please check the code and try again.", {
+                autoClose: 1000,
+            }); // Specific error for verification
             setSubmitDisabled(false); // Re-enable buttons if verification fails
             return;
         }
@@ -45,7 +47,9 @@ const Verify = () => {
                 onClose: () => setTimeout(() => navigate(Pages.SIGN_IN)), // Redirect to the login page after 2 seconds
             });
         } catch (err) {
-            toast.error(err.message || "Registration failed. Please try again later."); // Specific error for registration
+            toast.error(err.message || "Registration failed. Please try again later.", {
+                autoClose: 1000,
+            }); // Specific error for registration
             setSubmitDisabled(false); // Re-enable buttons if registration fails
             return;
         }

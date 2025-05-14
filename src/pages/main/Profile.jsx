@@ -64,7 +64,9 @@ const Profile = () => {
     const newPassword = e.target.new_password.value;
     const repeatPassword = e.target.repeat_password.value;
     if (newPassword !== repeatPassword) {
-      toast.error("Passwords do not match!");
+      toast.error("Passwords do not match!", {
+        autoClose: 1000,
+      });
       return;
     }
     // Call the function to change the password here
@@ -96,12 +98,16 @@ const Profile = () => {
           <form className="needs-validation mb-2" 
             onSubmit={(e) => {
               if (fullName[0].trim().split(/\s+/).length > 1) {
-                toast.error("Incorrect name format. Please enter a valid name.");
+                toast.error("Incorrect name format. Please enter a valid name.", {
+                  autoClose: 1000,
+                });
                 e.preventDefault();
                 return;
               }
               if (fullName[1].trim().split(/\s+/).length > 1) {
-                toast.error("Incorrect name format. Please enter a valid name.");
+                toast.error("Incorrect name format. Please enter a valid name.", {
+                  autoClose: 1000,
+                });
                 e.preventDefault();
                 return;
               }

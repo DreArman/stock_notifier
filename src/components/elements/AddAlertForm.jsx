@@ -18,7 +18,9 @@ const AddAlertForm = ({ setShowAddAlert, alerts, setAlerts }) => {
         setTickers(data.tickers);
         console.log("Fetched stock tickers:", data.tickers);
       } catch {
-        toast.error("Failed to fetch stock tickers.");
+        toast.error("Failed to fetch stock tickers.", {
+        autoClose: 1000,
+      });
       }
     };
     fetchTickers();
@@ -43,7 +45,9 @@ const AddAlertForm = ({ setShowAddAlert, alerts, setAlerts }) => {
     if (ticker_id !== -1) {
       fetchStockDetails(ticker_id);
     } else {
-      toast.error("Selected ticker not found.");
+      toast.error("Selected ticker not found.", {
+        autoClose: 1000,
+      });
     }
   };
 
@@ -58,7 +62,9 @@ const AddAlertForm = ({ setShowAddAlert, alerts, setAlerts }) => {
       }
     } catch (error) {
       console.error("Error fetching stock data:", error);
-      toast.error("Failed to fetch stock data.");
+      toast.error("Failed to fetch stock data.", {
+        autoClose: 1000,
+      });
     }
   };
 
@@ -75,13 +81,17 @@ const AddAlertForm = ({ setShowAddAlert, alerts, setAlerts }) => {
   
     // Validate at least one of 'above' or 'below' is filled
     if (above === null && below === null) {
-      toast.error("Enter a price for either 'Above' or 'Below'.");
+      toast.error("Enter a price for either 'Above' or 'Below'.", {
+        autoClose: 1000,
+      });
       return;
     }
   
     // Check if the alert for the symbol already exists
     if (alerts.some((a) => a.symbol === symbol && a.status)) {
-      toast.error("Alert for this symbol already exists.");
+      toast.error("Alert for this symbol already exists.", {
+        autoClose: 1000,
+      });
       return;
     }
   
@@ -96,7 +106,9 @@ const AddAlertForm = ({ setShowAddAlert, alerts, setAlerts }) => {
       );
     } catch (error) {
       console.error("Error setting custom alert:", error);
-      toast.error("Failed to set custom alert. Please try again later.");
+      toast.error("Failed to set custom alert. Please try again later.", {
+        autoClose: 1000,
+      });
       return;
     }
   

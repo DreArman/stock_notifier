@@ -21,7 +21,9 @@ const CustomPriceAlerts = ({ alerts, setAlerts }) => {
     }
     catch (error) {
       console.error("Error removing alert:", error);
-      toast.error("Failed to remove alert. Please try again later.");
+      toast.error("Failed to remove alert. Please try again later.", {
+        autoClose: 1000,
+      });
     }
     // Remove the alert from the local state
     const updatedAlerts = alerts.filter((alert) => alert.symbol !== symbol);

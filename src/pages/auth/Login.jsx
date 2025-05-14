@@ -15,7 +15,9 @@ const Login = () => {
       await login(email, password);
     } catch (e) {
       console.error("Login error:", e);
-      toast.error(e);
+      toast.error(e, {
+        autoClose: 1000,
+      });
     }
   };
 
